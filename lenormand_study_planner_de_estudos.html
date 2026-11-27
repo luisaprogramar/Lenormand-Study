@@ -1,0 +1,3146 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lenormand Study — Planner Acadêmico de Baralho Cigano</title>
+  
+  <!-- Fontes Acadêmicas & Elegantes -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            roseLight: '#FCE4EC',
+            rosePastel: '#F8BBD0',
+            roseMedium: '#E8A0BF',
+            roseAntique: '#C77D9A',
+            roseDark: '#A64D79',
+            roseWhite: '#FFF9FB',
+            inkText: '#49313D',
+          },
+          fontFamily: {
+            serif: ['"Cormorant Garamond"', 'Georgia', 'serif'],
+            sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
+          },
+          boxShadow: {
+            'soft': '0 8px 30px -6px rgba(166, 77, 121, 0.08)',
+            'card': '0 4px 20px -2px rgba(199, 125, 154, 0.12)',
+            'glow': '0 0 25px rgba(232, 160, 191, 0.35)',
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    :root {
+      --rose-light: #FCE4EC;
+      --rose-pastel: #F8BBD0;
+      --rose-medium: #E8A0BF;
+      --rose-antique: #C77D9A;
+      --rose-dark: #A64D79;
+      --rose-white: #FFF9FB;
+      --ink-text: #49313D;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: var(--rose-white);
+      color: var(--ink-text);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-image: 
+        radial-gradient(at 0% 0%, rgba(252, 228, 236, 0.85) 0px, transparent 50%),
+        radial-gradient(at 100% 100%, rgba(248, 187, 208, 0.45) 0px, transparent 50%);
+      background-attachment: fixed;
+      min-height: 100vh;
+    }
+
+    h1, h2, h3, .font-editorial {
+      font-family: 'Cormorant Garamond', serif;
+    }
+
+    /* Scrollbar refinada */
+    ::-webkit-scrollbar {
+      width: 7px;
+      height: 7px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #FFF9FB;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #E8A0BF;
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #C77D9A;
+    }
+
+    /* Custom Checkbox */
+    .rose-checkbox {
+      appearance: none;
+      -webkit-appearance: none;
+      width: 1.25rem;
+      height: 1.25rem;
+      border: 1.8px solid #C77D9A;
+      border-radius: 0.4rem;
+      background-color: #FFF9FB;
+      cursor: pointer;
+      display: inline-grid;
+      place-content: center;
+      transition: all 0.2s ease;
+      flex-shrink: 0;
+    }
+    .rose-checkbox:hover {
+      border-color: #A64D79;
+      background-color: #FCE4EC;
+    }
+    .rose-checkbox:checked {
+      background-color: #A64D79;
+      border-color: #A64D79;
+    }
+    .rose-checkbox:checked::before {
+      content: "";
+      width: 0.65rem;
+      height: 0.65rem;
+      transform: scale(1);
+      box-shadow: inset 1em 1em #FFF9FB;
+      clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+    }
+
+    /* Ornamentos e Transições */
+    .card-surface {
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(248, 187, 208, 0.85);
+      box-shadow: 0 8px 30px -6px rgba(166, 77, 121, 0.08);
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    }
+    .card-surface:hover {
+      border-color: #E8A0BF;
+    }
+
+    .nav-item-active {
+      background: linear-gradient(135deg, #FCE4EC 0%, #F8BBD0 100%);
+      color: #A64D79;
+      border-left: 3.5px solid #A64D79;
+      font-weight: 600;
+    }
+
+    .fade-in {
+      animation: fadeIn 0.28s ease-out forwards;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Padrão sutil de papel acadêmico */
+    .academic-border {
+      background-image: linear-gradient(to right, rgba(199, 125, 154, 0.25) 50%, transparent 50%);
+      background-size: 8px 1px;
+      background-repeat: repeat-x;
+    }
+  </style>
+</head>
+<body class="antialiased selection:bg-rosePastel selection:text-roseDark">
+
+  <div id="app" class="min-h-screen flex flex-col lg:flex-row">
+    <!-- Topbar Mobile -->
+    <header class="lg:hidden sticky top-0 z-40 bg-roseWhite/95 backdrop-blur-md border-b border-rosePastel px-4 py-3 flex items-center justify-between shadow-sm">
+      <div class="flex items-center gap-2.5">
+        <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-roseLight to-rosePastel border border-roseMedium flex items-center justify-center text-roseDark shadow-sm">
+          <span class="font-serif font-bold text-lg">✦</span>
+        </div>
+        <div>
+          <h1 class="text-xl font-bold text-roseDark leading-none tracking-tight">Lenormand Study</h1>
+          <p class="text-[11px] text-roseAntique font-medium tracking-wider uppercase">Planner Acadêmico</p>
+        </div>
+      </div>
+      <button id="mobile-menu-btn" aria-label="Abrir menu" class="p-2.5 rounded-xl bg-roseLight text-roseDark hover:bg-rosePastel transition">
+        <i data-lucide="menu" class="w-5 h-5"></i>
+      </button>
+    </header>
+
+    <!-- Backdrop Mobile Drawer -->
+    <div id="mobile-backdrop" class="fixed inset-0 bg-inkText/30 backdrop-blur-xs z-40 hidden lg:hidden"></div>
+
+    <!-- Sidebar Navegação -->
+    <aside id="sidebar" class="fixed lg:sticky top-0 left-0 z-50 h-screen w-72 bg-roseWhite/95 backdrop-blur-md border-r border-rosePastel flex flex-col justify-between transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out">
+      <div>
+        <!-- Cabeçalho da Marca -->
+        <div class="p-6 border-b border-roseLight/90">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-3">
+              <div class="w-11 h-11 rounded-2xl bg-gradient-to-br from-roseLight via-rosePastel to-roseMedium/60 border border-roseAntique/40 flex items-center justify-center text-roseDark shadow-sm">
+                <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+                  <rect x="4" y="2" width="16" height="20" rx="3" />
+                  <path d="M12 7l1.5 3.5L17 12l-3.5 1.5L12 17l-1.5-3.5L7 12l3.5-1.5L12 7z" />
+                </svg>
+              </div>
+              <div>
+                <span class="text-[10px] uppercase tracking-[0.2em] text-roseAntique font-semibold block">Petit Lenormand</span>
+                <h1 class="text-2xl font-bold text-roseDark leading-tight">Lenormand Study</h1>
+              </div>
+            </div>
+            <button id="close-sidebar-btn" class="lg:hidden p-2 rounded-lg text-roseAntique hover:bg-roseLight">
+              <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+          </div>
+          
+          <!-- Ornamento discreto dos 4 naipes -->
+          <div class="mt-4 pt-3 border-t border-roseLight flex items-center justify-between text-xs text-roseAntique/80 px-1">
+            <span>♥ Copas</span>
+            <span>♦ Ouros</span>
+            <span>♠ Espadas</span>
+            <span>♣ Paus</span>
+          </div>
+        </div>
+
+        <!-- Menu de Navegação -->
+        <nav class="p-3.5 space-y-1 overflow-y-auto max-h-[calc(100vh-210px)]" id="main-nav">
+          <!-- Gerado via JS -->
+        </nav>
+      </div>
+
+      <!-- Rodapé da Sidebar -->
+      <div class="p-4 m-3.5 rounded-2xl bg-gradient-to-br from-roseLight/90 to-rosePastel/50 border border-rosePastel">
+        <div class="flex items-center justify-between text-xs font-semibold text-roseDark mb-1.5">
+          <span>Progresso Geral</span>
+          <span id="sidebar-progress-text">0%</span>
+        </div>
+        <div class="w-full h-2 bg-roseWhite rounded-full overflow-hidden border border-rosePastel">
+          <div id="sidebar-progress-bar" class="h-full bg-gradient-to-r from-roseAntique to-roseDark rounded-full transition-all duration-500" style="width: 0%"></div>
+        </div>
+        <p id="sidebar-status-badge" class="mt-2 text-[11px] text-inkText/80 flex items-center gap-1.5">
+          <span class="w-2 h-2 rounded-full bg-roseDark inline-block"></span>
+          <span>Formação ativa</span>
+        </p>
+      </div>
+    </aside>
+
+    <!-- Conteúdo Principal -->
+    <main class="flex-1 min-w-0 p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto w-full">
+      <div id="view-container" class="fade-in">
+        <!-- Conteúdo dinâmico das páginas -->
+      </div>
+    </main>
+  </div>
+
+  <!-- Modal Global (Ficha da Carta / Guia GitHub Pages / Confirmações) -->
+  <div id="modal-overlay" class="fixed inset-0 bg-inkText/40 backdrop-blur-xs z-50 hidden items-center justify-center p-3 sm:p-6 overflow-y-auto">
+    <div id="modal-content" class="bg-roseWhite border border-rosePastel rounded-3xl shadow-2xl w-full max-w-4xl max-h-[90vh] flex flex-col overflow-hidden fade-in">
+      <!-- Conteúdo injetado dinamicamente -->
+    </div>
+  </div>
+
+  <!-- Toast de Notificação -->
+  <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
+
+  <script>
+    /**
+     * ============================================================================
+     * LENORMAND STUDY — PLANNER ACADÊMICO DE BARALHO CIGANO (PETIT LENORMAND)
+     * Arquitetura Estática Single-File pronta para GitHub Pages (localStorage)
+     * Sem textos explicativos ou significados prontos: 100% guia curricular.
+     * ============================================================================
+     */
+
+    // ----------------------------------------------------------------------------
+    // 1. DADOS CURRICULARES ESTRUTURADOS (36 CARTAS, 10 CATEGORIAS, 8 MÓDULOS)
+    // ----------------------------------------------------------------------------
+
+    const LENORMAND_CARDS = [
+      { num: 1, name: "O Cavaleiro", suit: "9 de Copas ♥", element: "Fogo / Ar" },
+      { num: 2, name: "Os Obstáculos / As Pedras", suit: "6 de Ouros ♦", element: "Terra" },
+      { num: 3, name: "O Navio", suit: "10 de Espadas ♠", element: "Água" },
+      { num: 4, name: "A Casa", suit: "Rei de Copas ♥", element: "Terra" },
+      { num: 5, name: "A Árvore", suit: "7 de Copas ♥", element: "Terra" },
+      { num: 6, name: "As Nuvens", suit: "Rei de Paus ♣", element: "Ar" },
+      { num: 7, name: "A Cobra", suit: "Rainha de Paus ♣", element: "Água / Fogo" },
+      { num: 8, name: "O Caixão", suit: "9 de Ouros ♦", element: "Terra" },
+      { num: 9, name: "O Buquê", suit: "Rainha de Espadas ♠", element: "Ar / Terra" },
+      { num: 10, name: "A Foice", suit: "Valete de Ouros ♦", element: "Ar / Fogo" },
+      { num: 11, name: "O Chicote", suit: "Valete de Paus ♣", element: "Fogo" },
+      { num: 12, name: "Os Pássaros", suit: "7 de Ouros ♦", element: "Ar" },
+      { num: 13, name: "A Criança", suit: "Valete de Espadas ♠", element: "Ar" },
+      { num: 14, name: "A Raposa", suit: "9 de Paus ♣", element: "Terra / Fogo" },
+      { num: 15, name: "O Urso", suit: "10 de Paus ♣", element: "Terra / Fogo" },
+      { num: 16, name: "As Estrelas", suit: "6 de Copas ♥", element: "Ar" },
+      { num: 17, name: "A Cegonha", suit: "Rainha de Copas ♥", element: "Ar / Água" },
+      { num: 18, name: "O Cachorro", suit: "10 de Copas ♥", element: "Terra" },
+      { num: 19, name: "A Torre", suit: "6 de Espadas ♠", element: "Terra / Ar" },
+      { num: 20, name: "O Jardim", suit: "8 de Espadas ♠", element: "Terra / Ar" },
+      { num: 21, name: "A Montanha", suit: "8 de Paus ♣", element: "Terra" },
+      { num: 22, name: "Os Caminhos", suit: "Rainha de Ouros ♦", element: "Ar" },
+      { num: 23, name: "Os Ratos", suit: "7 de Paus ♣", element: "Terra" },
+      { num: 24, name: "O Coração", suit: "Valete de Copas ♥", element: "Água / Fogo" },
+      { num: 25, name: "O Anel", suit: "Ás de Paus ♣", element: "Terra / Fogo" },
+      { num: 26, name: "O Livro", suit: "10 de Ouros ♦", element: "Terra / Ar" },
+      { num: 27, name: "A Carta", suit: "7 de Espadas ♠", element: "Ar" },
+      { num: 28, name: "O Homem", suit: "Ás de Copas ♥", element: "Fogo / Ar" },
+      { num: 29, name: "A Mulher", suit: "Ás de Espadas ♠", element: "Água / Terra" },
+      { num: 30, name: "Os Lírios", suit: "Rei de Espadas ♠", element: "Água / Ar" },
+      { num: 31, name: "O Sol", suit: "Ás de Ouros ♦", element: "Fogo" },
+      { num: 32, name: "A Lua", suit: "8 de Copas ♥", element: "Água" },
+      { num: 33, name: "A Chave", suit: "8 de Ouros ♦", element: "Ar / Fogo" },
+      { num: 34, name: "Os Peixes", suit: "Rei de Ouros ♦", element: "Água" },
+      { num: 35, name: "A Âncora", suit: "9 de Espadas ♠", element: "Terra / Água" },
+      { num: 36, name: "A Cruz", suit: "6 de Paus ♣", element: "Fogo / Terra" }
+    ];
+
+    // 10 Categorias obrigatórias para a ficha individual de cada uma das 36 cartas
+    const CARD_STUDY_CATEGORIES = [
+      {
+        code: "A",
+        title: "Identidade e simbologia",
+        topics: [
+          "Essência", "Arquétipo", "História", "Simbolismo visual",
+          "Significados tradicionais", "Significados contemporâneos",
+          "Polaridade positiva, negativa e neutra", "Significados literais e metafóricos"
+        ]
+      },
+      {
+        code: "B",
+        title: "Personalidade e psicologia",
+        topics: [
+          "Personalidade", "Temperamento", "Virtudes e defeitos", "Pensamentos",
+          "Comportamentos", "Medos", "Inseguranças", "Motivações",
+          "Padrões emocionais", "Relações interpessoais"
+        ]
+      },
+      {
+        code: "C",
+        title: "Aparência física",
+        topics: [
+          "Características físicas", "Estrutura corporal", "Rosto", "Olhos",
+          "Cabelos", "Expressão facial", "Voz", "Postura",
+          "Estilo pessoal", "Vestimentas", "Presença e impressão transmitida"
+        ]
+      },
+      {
+        code: "D",
+        title: "Sexualidade",
+        topics: [
+          "Libido", "Sensualidade", "Erotismo", "Desejo", "Iniciativa sexual",
+          "Receptividade", "Dinâmicas de poder", "Dominância e submissão",
+          "Fantasias", "Fetichização simbólica", "Intimidade",
+          "Compatibilidade sexual", "Repressão e bloqueios",
+          "Ciúmes e possessividade", "Sexo casual e sexo afetivo"
+        ]
+      },
+      {
+        code: "E",
+        title: "Amor e relacionamentos",
+        topics: [
+          "Sentimentos", "Pensamentos amorosos", "Intenções", "Atração",
+          "Paixão", "Namoro", "Casamento", "Fidelidade", "Traição",
+          "Ciúmes", "Obsessão", "Dependência emocional", "Separação",
+          "Reconciliação", "Futuro dos relacionamentos"
+        ]
+      },
+      {
+        code: "F",
+        title: "Espiritualidade",
+        topics: [
+          "Significado espiritual", "Intuição", "Mediunidade",
+          "Desenvolvimento espiritual", "Proteção", "Limpeza espiritual",
+          "Bloqueios", "Ancestralidade", "Arquétipos espirituais",
+          "Guias e entidades", "Correspondências com Orixás, quando fundamentadas",
+          "Correspondências com Exus e Pombagiras", "Pretos-Velhos",
+          "Caboclos", "Erês", "Ciganos", "Marinheiros", "Malandros",
+          "Correspondências mitológicas e religiosas"
+        ]
+      },
+      {
+        code: "G",
+        title: "Saúde e vitalidade",
+        topics: [
+          "Vitalidade", "Disposição", "Cansaço", "Sono", "Estresse",
+          "Simbolismo corporal", "Associações tradicionais com sistemas do corpo"
+        ]
+      },
+      {
+        code: "H",
+        title: "Vida material",
+        topics: [
+          "Trabalho", "Profissões", "Estudos", "Vocação", "Dinheiro",
+          "Patrimônio", "Ganhos", "Perdas", "Dívidas", "Investimentos",
+          "Casa", "Bens", "Viagens", "Acontecimentos concretos"
+        ]
+      },
+      {
+        code: "I",
+        title: "Temporalidade",
+        topics: [
+          "Rapidez", "Lentidão", "Duração", "Frequência", "Repetição",
+          "Ciclos", "Estações", "Períodos temporais"
+        ]
+      },
+      {
+        code: "J",
+        title: "Interpretação divinatória",
+        topics: [
+          "Sim ou não", "Resposta objetiva", "Explicação", "Previsão futura",
+          "Conselho", "Advertência", "Obstáculo", "Oportunidade",
+          "Fundo do baralho", "Carta extra", "Interpretação contextual"
+        ]
+      }
+    ];
+
+    const COMBINATION_TOPICS = [
+      "Significado geral",
+      "Amor",
+      "Sexualidade",
+      "Personalidade",
+      "Aparência",
+      "Espiritualidade",
+      "Trabalho",
+      "Finanças",
+      "Acontecimentos",
+      "Sim ou não"
+    ];
+
+    const MODULES_META = [
+      { id: 1, code: "MÓDULO 1", title: "História e fundamentos", subtitle: "Origens europeias, escolas clássicas, estrutura do sistema e ética." },
+      { id: 2, code: "MÓDULO 2", title: "Simbologia", subtitle: "Leitura simbólica de fauna, flora, objetos, elementos, cores e mitos." },
+      { id: 3, code: "MÓDULO 3", title: "Numerologia e correspondências", subtitle: "Naipes tradicionais, numerologia, astrologia e sistemas comparados." },
+      { id: 4, code: "MÓDULO 4", title: "Estudo aprofundado das 36 cartas", subtitle: "Investigação exaustiva das 36 lâminas em 10 eixos temáticos." },
+      { id: 5, code: "MÓDULO 5", title: "Combinações", subtitle: "Sintaxe cartomântica, pares, tríades, contextos e as 630 duplas." },
+      { id: 6, code: "MÓDULO 6", title: "Métodos de tiragem", subtitle: "Estruturas objetivas e temáticas de 1 a 9 cartas, cruz e linhas." },
+      { id: 7, code: "MÓDULO 7", title: "Mesa Real", subtitle: "Arquitetura do Grand Tableau, casas, espelhamentos, saltos e eixos." },
+      { id: 8, code: "MÓDULO 8", title: "Prática avançada", subtitle: "Estudos de caso, auditoria de previsões, diário e maestria ética." }
+    ];
+
+    // Construção determinística e pedagógica do Cronograma Completo (~138 dias detalhados)
+    function buildCurriculumDays() {
+      const days = [];
+      let dayCounter = 1;
+
+      const pushDay = (moduleId, theme, minutes, topics, cardRef = null) => {
+        days.push({
+          day: dayCounter++,
+          moduleId,
+          theme,
+          estimatedMinutes: minutes,
+          cardRef,
+          tasks: topics.map((t, idx) => ({
+            id: `d${dayCounter - 1}_t${idx + 1}`,
+            text: t
+          }))
+        });
+      };
+
+      // --- MÓDULO 1: História e fundamentos (4 dias) ---
+      pushDay(1, "Origens Históricas do Sistema", 60, [
+        "História do Petit Lenormand (Das Spiel der Hoffnung, 1799)",
+        "Origem do Baralho Cigano e evolução iconográfica",
+        "Biografia e legado histórico de Marie Anne Lenormand"
+      ]);
+      pushDay(1, "Arquitetura do Baralho e Escolas", 60, [
+        "Estrutura das 36 cartas e organização numérica",
+        "Diferenças entre escolas (Europeia/Alemã, Francesa, Brasileira)",
+        "Baralho Cigano no Brasil: sincretismo e consolidação cultural"
+      ]);
+      pushDay(1, "Tradição Cartomântica e História Divinatória", 60, [
+        "Cartomancia tradicional e inserção dos naipes",
+        "História das práticas divinatórias e oraculares"
+      ]);
+      pushDay(1, "Bases Epistemológicas e Ética Oracular", 60, [
+        "Fundamentos da interpretação simbólica",
+        "Equilíbrio entre intuição e conhecimento técnico",
+        "Ética na cartomancia e limites da consulta"
+      ]);
+
+      // --- MÓDULO 2: Simbologia (4 dias) ---
+      pushDay(2, "Simbologia Natural: Fauna e Flora", 60, [
+        "Simbologia dos animais no repertório oracular",
+        "Simbologia das plantas, árvores e flores",
+        "Simbologia dos elementos naturais (Terra, Água, Fogo, Ar)"
+      ]);
+      pushDay(2, "Simbologia Material e Arquitetônica", 60, [
+        "Simbologia dos objetos cotidianos e instrumentos",
+        "Simbologia das construções e espaços delimitados"
+      ]);
+      pushDay(2, "Fenômenos, Cores e Dinâmica Visual", 60, [
+        "Simbologia dos fenômenos naturais e climáticos",
+        "Simbologia das cores nas lâminas tradicionais",
+        "Simbologia dos movimentos, direções e vetores na imagem"
+      ]);
+      pushDay(2, "Números, Mitos e Tradições Culturais", 60, [
+        "Simbologia dos números na leitura visual",
+        "Simbologia mitológica clássica",
+        "Simbologia cultural e religiosa"
+      ]);
+
+      // --- MÓDULO 3: Numerologia e correspondências (4 dias) ---
+      pushDay(3, "Fundamentos Numéricos das 36 Cartas", 60, [
+        "Numerologia das 36 cartas (1 a 36 e reduções)",
+        "Polaridade entre números pares e ímpares",
+        "Sequências numéricas e progressões na leitura"
+      ]);
+      pushDay(3, "Cartomancia Clássica: Naipes e Elementos", 60, [
+        "Naipes tradicionais (Copas, Ouros, Espadas, Paus) e figuras da corte",
+        "Correspondência com os quatro elementos"
+      ]);
+      pushDay(3, "Correspondências Astrológicas e Temporais", 60, [
+        "Astrologia aplicada ao Petit Lenormand",
+        "Signos zodiacais associados às lâminas",
+        "Planetas regentes",
+        "Dias da semana, meses e estações do ano"
+      ]);
+      pushDay(3, "Sistemas Esotéricos e Comparativo de Escolas", 60, [
+        "Correspondências esotéricas tradicionais",
+        "Comparação estrutural de correspondências entre diferentes escolas"
+      ]);
+
+      // --- MÓDULO 4: Estudo aprofundado das 36 cartas (3 dias por carta = 108 dias) ---
+      LENORMAND_CARDS.forEach(card => {
+        // Dia 1 da carta: Identidade, Psicologia, Aparência
+        pushDay(
+          4,
+          `Carta ${String(card.num).padStart(2, '0')} — ${card.name} (Parte I: Identidade, Psique e Forma)`,
+          75,
+          [
+            `[A. Identidade e simbologia] Essência, Arquétipo, História e Simbolismo visual (${card.name})`,
+            `[A. Identidade e simbologia] Significados tradicionais, contemporâneos, polaridades e sentido literal/metafórico`,
+            `[B. Personalidade e psicologia] Personalidade, temperamento, virtudes, defeitos, pensamentos e comportamentos`,
+            `[B. Personalidade e psicologia] Medos, inseguranças, motivações, padrões emocionais e relações interpessoais`,
+            `[C. Aparência física] Características físicas, estrutura corporal, rosto, olhos, cabelos, expressão, voz, postura e estilo`
+          ],
+          card.num
+        );
+
+        // Dia 2 da carta: Sexualidade, Amor e Espiritualidade
+        pushDay(
+          4,
+          `Carta ${String(card.num).padStart(2, '0')} — ${card.name} (Parte II: Afetos, Sexualidade e Espiritualidade)`,
+          75,
+          [
+            `[D. Sexualidade] Libido, sensualidade, erotismo, desejo, iniciativa, receptividade e dinâmicas de poder`,
+            `[D. Sexualidade] Dominância/submissão, fantasias, fetichização simbólica, intimidade, bloqueios, ciúmes e sexo casual/afetivo`,
+            `[E. Amor e relacionamentos] Sentimentos, pensamentos amorosos, intenções, atração, paixão, namoro e casamento`,
+            `[E. Amor e relacionamentos] Fidelidade, traição, ciúmes, obsessão, dependência emocional, separação, reconciliação e futuro`,
+            `[F. Espiritualidade] Significado espiritual, intuição, mediunidade, desenvolvimento, proteção, limpeza, bloqueios e ancestralidade`,
+            `[F. Espiritualidade] Arquétipos espirituais, guias, linhas (Orixás, Exus, Pombagiras, Pretos-Velhos, Caboclos, Erês, Ciganos, Marinheiros, Malandros) e mitologia`
+          ],
+          card.num
+        );
+
+        // Dia 3 da carta: Saúde, Vida Material, Temporalidade e Interpretação Divinatória
+        pushDay(
+          4,
+          `Carta ${String(card.num).padStart(2, '0')} — ${card.name} (Parte III: Matéria, Tempo e Oráculo)`,
+          75,
+          [
+            `[G. Saúde e vitalidade] Vitalidade, disposição, cansaço, sono, estresse, simbolismo corporal e sistemas do corpo`,
+            `[H. Vida material] Trabalho, profissões, estudos, vocação, dinheiro, patrimônio, ganhos, perdas, dívidas e investimentos`,
+            `[H. Vida material] Casa, bens, viagens e acontecimentos concretos`,
+            `[I. Temporalidade] Rapidez, lentidão, duração, frequência, repetição, ciclos, estações e períodos temporais`,
+            `[J. Interpretação divinatória] Sim ou não, resposta objetiva, explicação, previsão futura, conselho e advertência`,
+            `[J. Interpretação divinatória] Obstáculo, oportunidade, fundo do baralho, carta extra e interpretação contextual`
+          ],
+          card.num
+        );
+      });
+
+      // --- MÓDULO 5: Combinações (6 dias) ---
+      pushDay(5, "Sintaxe e Fundamentos das Combinações", 60, [
+        "Fundamentos das combinações e leitura relacional",
+        "Combinações de duas cartas (carta tema + carta modificadora)",
+        "Combinações de três cartas (estrutura narrativa linear)"
+      ]);
+      pushDay(5, "Estruturas Avançadas de Combinação", 60, [
+        "Combinações de quatro cartas",
+        "Combinações de cinco cartas (linha narrativa completa)",
+        "Análise de combinações contraditórias"
+      ]);
+      pushDay(5, "Dinâmicas de Modificação Simbólica", 60, [
+        "Confirmações entre lâminas",
+        "Negações e anulações simbólicas",
+        "Intensificações e suavizações",
+        "Relação de causa e consequência"
+      ]);
+      pushDay(5, "Combinações por Contexto Afetivo e Pessoal", 60, [
+        "Combinações por contexto: princípios de adaptação",
+        "Combinações amorosas",
+        "Combinações sexuais",
+        "Combinações de personalidade e aparência"
+      ]);
+      pushDay(5, "Combinações Materiais e Espirituais", 60, [
+        "Combinações espirituais",
+        "Combinações profissionais",
+        "Combinações financeiras"
+      ]);
+      pushDay(5, "Matriz Sistemática das 630 Combinações", 90, [
+        "Metodologia de estudo sistemático das 630 combinações possíveis entre pares de cartas diferentes",
+        "Organização de fichas na aba Combinações (Grupos 1 a 18 x demais cartas)",
+        "Organização de fichas na aba Combinações (Grupos 19 a 36 x demais cartas)"
+      ]);
+
+      // --- MÓDULO 6: Métodos de tiragem (4 dias) ---
+      pushDay(6, "Tiragens Objetivas (1 a 3 Cartas)", 60, [
+        "Tiragem de uma carta (carta do dia e resposta direta)",
+        "Tiragem de duas cartas (polaridade e síntese)",
+        "Tiragem de três cartas (passado-presente-futuro e tema-conselho-resultado)"
+      ]);
+      pushDay(6, "Tiragens Estruturadas (5, 7 e 9 Cartas)", 75, [
+        "Tiragem de cinco cartas",
+        "Tiragem de sete cartas",
+        "Tiragem de nove cartas (quadrado 3x3: linhas, colunas e diagonais)"
+      ]);
+      pushDay(6, "Tiragens Temáticas Especializadas", 75, [
+        "Tiragem em cruz",
+        "Linha temporal",
+        "Tiragem amorosa e tiragem espiritual",
+        "Tiragem financeira, profissional e de autoconhecimento"
+      ]);
+      pushDay(6, "Elementos Técnicos de Leitura", 60, [
+        "Uso estratégico de cartas significadoras",
+        "Leitura do fundo do baralho",
+        "Uso de cartas extras e de esclarecimento",
+        "Técnicas avançadas de costura narrativa"
+      ]);
+
+      // --- MÓDULO 7: Mesa Real (5 dias) ---
+      pushDay(7, "Arquitetura da Mesa Real (Grand Tableau)", 75, [
+        "Estrutura da Mesa Real (8x4+4 e 9x4)",
+        "Disposição das 36 cartas no tabuleiro",
+        "Sistema das 36 Casas fixas e correspondências"
+      ]);
+      pushDay(7, "Significadores e Proximidade", 75, [
+        "Localização e análise dos significadores (28, 29 e cartas temáticas)",
+        "Leitura de cartas próximas e distantes",
+        "Direção do olhar e posicionamento relativo"
+      ]);
+      pushDay(7, "Geometria Oculta da Mesa Real", 90, [
+        "Técnica de espelhamento (horizontal, vertical e diagonal)",
+        "Saltos de cavalo (movimento em L)",
+        "Diagonais ascendentes e descendentes",
+        "Linhas, colunas e sequências narrativas"
+      ]);
+      pushDay(7, "Leitura Temática e Temporal na Mesa Real", 75, [
+        "Interpretação geral da Mesa Real",
+        "Interpretação por áreas da vida (amor, trabalho, finanças, saúde, espiritualidade)",
+        "Cálculo de temporalidade na Mesa Real"
+      ]);
+      pushDay(7, "Laboratório de Mesa Real", 90, [
+        "Estudos de casos completos em Mesa Real",
+        "Cruzamento entre casas, saltos de cavalo e espelhamentos"
+      ]);
+
+      // --- MÓDULO 8: Prática avançada (4 dias) ---
+      pushDay(8, "Formulação de Perguntas e Estudos de Caso", 75, [
+        "Interpretação de perguntas complexas e multifacetadas",
+        "Estudos de casos reais e históricos",
+        "Simulações estruturadas de consultas"
+      ]);
+      pushDay(8, "Auditoria de Leituras e Diário Oracular", 60, [
+        "Análise crítica de tiragens anteriores",
+        "Comparação objetiva entre previsões e acontecimentos",
+        "Estruturação do Diário de Cartomancia"
+      ]);
+      pushDay(8, "Aprimoramento Técnico e Intuitivo", 60, [
+        "Identificação e correção de erros interpretativos comuns",
+        "Desenvolvimento disciplinado da intuição",
+        "Construção de repertório simbólico próprio"
+      ]);
+      pushDay(8, "Consistência e Deontologia Profissional", 60, [
+        "Consistência interpretativa em atendimentos recorrentes",
+        "Ética profissional, sigilo e responsabilidade na condução de consultas"
+      ]);
+
+      return days;
+    }
+
+    const CURRICULUM_DAYS = buildCurriculumDays();
+
+    // ----------------------------------------------------------------------------
+    // 2. ESTADO GLOBAL & PERSISTÊNCIA (LOCALSTORAGE)
+    // ----------------------------------------------------------------------------
+
+    const STORAGE_KEY = 'lenormand_study_planner_v1';
+
+    function getTodayISO() {
+      const now = new Date();
+      const offset = now.getTimezoneOffset();
+      const local = new Date(now.getTime() - (offset * 60 * 1000));
+      return local.toISOString().split('T')[0];
+    }
+
+    const defaultState = {
+      settings: {
+        studentName: "Estudante de Lenormand",
+        startDate: getTodayISO(),
+        dailyMinutes: 60,
+        isPaused: false,
+        pausedAt: null,
+        scheduleDurationTarget: CURRICULUM_DAYS.length
+      },
+      // Status dos dias: { [dayNum]: { status: 'not_started'|'in_progress'|'completed', completedAt: 'YYYY-MM-DD'|null, notes: '', customTasks: [{id, text}], checkedTasks: { [taskId]: true } } }
+      daysProgress: {},
+      // Progresso detalhado das 36 cartas: { [cardNum]: { checkedTopics: { ['A_0']: true }, notes: '', customImage: '' } }
+      cardsProgress: {},
+      // Progresso das 630 combinações: { ['1-2']: { checkedTopics: { [idx]: true }, notes: '', completed: false } }
+      combinationsProgress: {},
+      // Histórico de revisões: [{ id, date, type, label, itemsCount, notes }]
+      revisionsHistory: [],
+      // Checklists de revisão atuais: { daily: {}, weekly: {}, monthly: {} }
+      revisionChecks: { daily: {}, weekly: {}, monthly: {} },
+      // Metas pessoais no Dashboard: [{ id, text, done }]
+      personalGoals: [
+        { id: 'g1', text: 'Completar todo o Módulo 1 com anotações estruturadas', done: false },
+        { id: 'g2', text: 'Montar meu caderno físico de fichas das 36 cartas', done: false },
+        { id: 'g3', text: 'Revisar semanalmente os tópicos estudados', done: false }
+      ],
+      // Log de dias em que houve atividade (para streak e histórico mensal)
+      activityDates: []
+    };
+
+    let state = loadState();
+    let currentRoute = 'dashboard';
+    let scheduleFilterModule = 'all';
+    let scheduleFilterStatus = 'all';
+    let scheduleSearchQuery = '';
+    let selectedScheduleDay = null;
+    let selectedComboA = 1;
+    let selectedComboB = 2;
+
+    function loadState() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) return structuredClone(defaultState);
+        const parsed = JSON.parse(raw);
+        return {
+          ...structuredClone(defaultState),
+          ...parsed,
+          settings: { ...defaultState.settings, ...(parsed.settings || {}) },
+          revisionChecks: { ...defaultState.revisionChecks, ...(parsed.revisionChecks || {}) }
+        };
+      } catch (e) {
+        console.error("Erro ao carregar localStorage:", e);
+        return structuredClone(defaultState);
+      }
+    }
+
+    function saveState() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+        updateSidebarMetrics();
+      } catch (e) {
+        console.error("Erro ao salvar localStorage:", e);
+        showToast("Aviso: Limite de armazenamento local atingido (tente imagens menores).", "warning");
+      }
+    }
+
+    function recordActivityToday() {
+      const today = getTodayISO();
+      if (!state.activityDates.includes(today)) {
+        state.activityDates.push(today);
+        state.activityDates.sort();
+      }
+    }
+
+    // ----------------------------------------------------------------------------
+    // 3. UTILITÁRIOS DE DATA, CÁLCULO DE PROGRESSO E FORMATAÇÃO
+    // ----------------------------------------------------------------------------
+
+    function addDaysToISO(isoDate, daysToAdd) {
+      if (!isoDate) return null;
+      const [y, m, d] = isoDate.split('-').map(Number);
+      const date = new Date(y, m - 1, d);
+      date.setDate(date.getDate() + daysToAdd);
+      const yy = date.getFullYear();
+      const mm = String(date.getMonth() + 1).padStart(2, '0');
+      const dd = String(date.getDate()).padStart(2, '0');
+      return `${yy}-${mm}-${dd}`;
+    }
+
+    function formatDateBR(isoDate) {
+      if (!isoDate) return "Sem data";
+      const [y, m, d] = isoDate.split('-');
+      return `${d}/${m}/${y}`;
+    }
+
+    function formatFullDateBR() {
+      const now = new Date();
+      return now.toLocaleDateString('pt-BR', {
+        weekday: 'long',
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric'
+      });
+    }
+
+    function getDayData(dayNum) {
+      const base = CURRICULUM_DAYS.find(d => d.day === dayNum);
+      if (!base) return null;
+      const prog = state.daysProgress[dayNum] || {
+        status: 'not_started',
+        completedAt: null,
+        notes: '',
+        customTasks: [],
+        checkedTasks: {}
+      };
+      const allTasks = [...base.tasks, ...(prog.customTasks || [])];
+      const scheduledDate = state.settings.startDate
+        ? addDaysToISO(state.settings.startDate, dayNum - 1)
+        : null;
+
+      return {
+        ...base,
+        ...prog,
+        allTasks,
+        scheduledDate
+      };
+    }
+
+    function getNextPendingDay() {
+      for (const d of CURRICULUM_DAYS) {
+        const prog = state.daysProgress[d.day];
+        if (!prog || prog.status !== 'completed') {
+          return getDayData(d.day);
+        }
+      }
+      return getDayData(CURRICULUM_DAYS[CURRICULUM_DAYS.length - 1].day);
+    }
+
+    function getLastStudiedDay() {
+      let lastDay = 1;
+      for (const d of CURRICULUM_DAYS) {
+        const prog = state.daysProgress[d.day];
+        if (prog && (prog.status === 'in_progress' || prog.status === 'completed')) {
+          lastDay = d.day;
+        }
+      }
+      return lastDay;
+    }
+
+    function getTotalCardTopicsCount() {
+      return CARD_STUDY_CATEGORIES.reduce((acc, cat) => acc + cat.topics.length, 0); // 116 tópicos por carta
+    }
+
+    function getCardProgress(cardNum) {
+      const total = getTotalCardTopicsCount();
+      const prog = state.cardsProgress[cardNum] || { checkedTopics: {}, notes: '', customImage: '' };
+      const checkedCount = Object.values(prog.checkedTopics || {}).filter(Boolean).length;
+      const percent = Math.round((checkedCount / total) * 100);
+      let status = 'Não iniciada';
+      if (checkedCount > 0 && checkedCount < total) status = 'Em estudo';
+      if (checkedCount >= total) status = 'Concluída';
+      return {
+        checkedCount,
+        total,
+        percent,
+        status,
+        notes: prog.notes || '',
+        customImage: prog.customImage || '',
+        checkedTopics: prog.checkedTopics || {}
+      };
+    }
+
+    function getModuleProgress(moduleId) {
+      const modDays = CURRICULUM_DAYS.filter(d => d.moduleId === moduleId);
+      const completed = modDays.filter(d => state.daysProgress[d.day]?.status === 'completed').length;
+      const percent = modDays.length ? Math.round((completed / modDays.length) * 100) : 0;
+      return { completed, total: modDays.length, percent };
+    }
+
+    function calculateStreak() {
+      const dates = [...new Set(state.activityDates)].sort().reverse();
+      if (dates.length === 0) return 0;
+
+      const today = getTodayISO();
+      const yesterday = addDaysToISO(today, -1);
+
+      if (dates[0] !== today && dates[0] !== yesterday) {
+        return 0;
+      }
+
+      let streak = 1;
+      let cursor = dates[0];
+      for (let i = 1; i < dates.length; i++) {
+        const expectedPrev = addDaysToISO(cursor, -1);
+        if (dates[i] === expectedPrev) {
+          streak++;
+          cursor = dates[i];
+        } else {
+          break;
+        }
+      }
+      return streak;
+    }
+
+    function getGlobalStats() {
+      const totalDays = CURRICULUM_DAYS.length;
+      let completedDays = 0;
+      let studiedMinutes = 0;
+
+      CURRICULUM_DAYS.forEach(d => {
+        const prog = state.daysProgress[d.day];
+        if (prog?.status === 'completed') {
+          completedDays++;
+          studiedMinutes += (state.settings.dailyMinutes || d.estimatedMinutes);
+        } else if (prog?.status === 'in_progress') {
+          const checked = Object.values(prog.checkedTasks || {}).filter(Boolean).length;
+          if (checked > 0) {
+            studiedMinutes += Math.round((d.estimatedMinutes * checked) / d.tasks.length);
+          }
+        }
+      });
+
+      const remainingDays = totalDays - completedDays;
+      const overallPercent = Math.round((completedDays / totalDays) * 100);
+      const streak = calculateStreak();
+      const studiedHours = (studiedMinutes / 60).toFixed(1);
+
+      // Combinações concluídas
+      const completedCombos = Object.values(state.combinationsProgress || {}).filter(c => c.completed).length;
+
+      return {
+        totalDays,
+        completedDays,
+        remainingDays,
+        overallPercent,
+        streak,
+        studiedHours,
+        completedCombos
+      };
+    }
+
+    // ----------------------------------------------------------------------------
+    // 4. MUTAÇÕES DE ESTADO & SINCRONIZAÇÃO ENTRE CRONOGRAMA E CARTAS
+    // ----------------------------------------------------------------------------
+
+    function toggleDayTask(dayNum, taskId) {
+      const day = getDayData(dayNum);
+      if (!day) return;
+
+      if (!state.daysProgress[dayNum]) {
+        state.daysProgress[dayNum] = {
+          status: 'in_progress',
+          completedAt: null,
+          notes: '',
+          customTasks: [],
+          checkedTasks: {}
+        };
+      }
+
+      const prog = state.daysProgress[dayNum];
+      prog.checkedTasks[taskId] = !prog.checkedTasks[taskId];
+
+      const totalTasks = day.allTasks.length;
+      const checkedCount = day.allTasks.filter(t => prog.checkedTasks[t.id]).length;
+
+      if (checkedCount === 0) {
+        prog.status = 'not_started';
+        prog.completedAt = null;
+      } else if (checkedCount === totalTasks) {
+        prog.status = 'completed';
+        prog.completedAt = prog.completedAt || getTodayISO();
+        recordActivityToday();
+      } else {
+        prog.status = 'in_progress';
+        prog.completedAt = null;
+        recordActivityToday();
+      }
+
+      saveState();
+      renderCurrentView();
+    }
+
+    function markDayCompleted(dayNum) {
+      const day = getDayData(dayNum);
+      if (!day) return;
+
+      if (!state.daysProgress[dayNum]) {
+        state.daysProgress[dayNum] = {
+          status: 'completed',
+          completedAt: getTodayISO(),
+          notes: '',
+          customTasks: [],
+          checkedTasks: {}
+        };
+      }
+
+      const prog = state.daysProgress[dayNum];
+      const wasCompleted = prog.status === 'completed';
+
+      if (wasCompleted) {
+        prog.status = 'not_started';
+        prog.completedAt = null;
+        prog.checkedTasks = {};
+        showToast(`Dia ${dayNum} reaberto como pendente.`);
+      } else {
+        prog.status = 'completed';
+        prog.completedAt = getTodayISO();
+        day.allTasks.forEach(t => {
+          prog.checkedTasks[t.id] = true;
+        });
+        recordActivityToday();
+        showToast(`Dia ${dayNum} concluído com sucesso! ✦`);
+      }
+
+      saveState();
+      renderCurrentView();
+    }
+
+    function updateDayNotes(dayNum, text) {
+      if (!state.daysProgress[dayNum]) {
+        state.daysProgress[dayNum] = {
+          status: 'not_started',
+          completedAt: null,
+          notes: '',
+          customTasks: [],
+          checkedTasks: {}
+        };
+      }
+      state.daysProgress[dayNum].notes = text;
+      saveState();
+    }
+
+    function addCustomTaskToDay(dayNum, taskText) {
+      const trimmed = taskText.trim();
+      if (!trimmed) return;
+      if (!state.daysProgress[dayNum]) {
+        state.daysProgress[dayNum] = {
+          status: 'not_started',
+          completedAt: null,
+          notes: '',
+          customTasks: [],
+          checkedTasks: {}
+        };
+      }
+      state.daysProgress[dayNum].customTasks.push({
+        id: `custom_${Date.now()}`,
+        text: trimmed
+      });
+      if (state.daysProgress[dayNum].status === 'completed') {
+        state.daysProgress[dayNum].status = 'in_progress';
+      }
+      saveState();
+      renderCurrentView();
+      showToast("Tópico personalizado adicionado ao dia.");
+    }
+
+    function toggleCardTopic(cardNum, topicKey) {
+      if (!state.cardsProgress[cardNum]) {
+        state.cardsProgress[cardNum] = { checkedTopics: {}, notes: '', customImage: '' };
+      }
+      const current = !!state.cardsProgress[cardNum].checkedTopics[topicKey];
+      state.cardsProgress[cardNum].checkedTopics[topicKey] = !current;
+      recordActivityToday();
+      saveState();
+    }
+
+    function toggleAllCardCategory(cardNum, catCode, checkAll) {
+      if (!state.cardsProgress[cardNum]) {
+        state.cardsProgress[cardNum] = { checkedTopics: {}, notes: '', customImage: '' };
+      }
+      const cat = CARD_STUDY_CATEGORIES.find(c => c.code === catCode);
+      if (!cat) return;
+      cat.topics.forEach((_, idx) => {
+        state.cardsProgress[cardNum].checkedTopics[`${catCode}_${idx}`] = checkAll;
+      });
+      recordActivityToday();
+      saveState();
+    }
+
+    function getComboKey(a, b) {
+      const min = Math.min(a, b);
+      const max = Math.max(a, b);
+      return `${min}-${max}`;
+    }
+
+    function toggleComboTopic(a, b, topicIdx) {
+      if (a === b) return;
+      const key = getComboKey(a, b);
+      if (!state.combinationsProgress[key]) {
+        state.combinationsProgress[key] = { checkedTopics: {}, notes: '', completed: false };
+      }
+      const cp = state.combinationsProgress[key];
+      cp.checkedTopics[topicIdx] = !cp.checkedTopics[topicIdx];
+      const count = COMBINATION_TOPICS.filter((_, i) => cp.checkedTopics[i]).length;
+      cp.completed = count === COMBINATION_TOPICS.length;
+      recordActivityToday();
+      saveState();
+      renderCurrentView();
+    }
+
+    // ----------------------------------------------------------------------------
+    // 5. COMPONENTES VISUAIS E ILUSTRAÇÕES DELICADAS SVG
+    // ----------------------------------------------------------------------------
+
+    function getCardGeometricSVG(num) {
+      // Ícones geométricos/simbólicos minimalistas e acadêmicos (sem textos explicativos)
+      const symbols = {
+        1: '<path d="M5 17h14M7 13l5-6 5 6M12 7v10"/>',
+        2: '<path d="M12 4a3 3 0 0 1 3 3c0 1.5-1 2.5-3 3-2-.5-3-1.5-3-3a3 3 0 0 1 3-3zm0 16a3 3 0 0 1-3-3c0-1.5 1-2.5 3-3 2 .5 3 1.5 3 3a3 3 0 0 1-3 3zM4 12a3 3 0 0 1 3-3c1.5 0 2.5 1 3 3-.5 2-1.5 3-3 3a3 3 0 0 1-3-3zm16 0a3 3 0 0 1-3 3c-1.5 0-2.5-1-3-3 .5-2 1.5-3 3-3a3 3 0 0 1 3 3z"/>',
+        3: '<path d="M3 16h18l-2 4H5l-2-4zm9-12v12m0-12l6 8h-6"/>',
+        4: '<path d="M3 10.5L12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1v-9.5z"/>',
+        5: '<path d="M12 21v-7m0 0c-4 0-7-3-7-7 3 0 5.5 1.5 7 4 1.5-2.5 4-4 7-4 0 4-3 7-7 7z"/>',
+        6: '<path d="M6.5 19h11a4.5 4.5 0 0 0 .5-8.97A6 6 0 0 0 6.3 8.5 4 4 0 0 0 6.5 19z"/>',
+        7: '<path d="M7 18c0-3 10-3 10-6S7 9 7 6c0-1.5 2-2.5 5-2.5"/>',
+        8: '<path d="M8 3h8l3 5-3 13H8L5 8l3-5z"/>',
+        9: '<path d="M12 13v8m-4-4l4-4 4 4M12 3a3 3 0 1 0 0 6 3 3 0 0 0 0-6zm-5 3a2.5 2.5 0 1 0 0 5m10-5a2.5 2.5 0 1 1 0 5"/>',
+        10: '<path d="M6 20L18 4m0 0c-5 0-9 3-10 7"/>',
+        11: '<path d="M5 19L19 5M9 5l10 10"/>',
+        12: '<path d="M4 14c3-4 6-4 8 0 2-4 5-4 8 0M7 9c2-2 4-2 5 0 1-2 3-2 5 0"/>',
+        13: '<circle cx="12" cy="8" r="3.5"/><path d="M6 20c0-3.5 2.7-6 6-6s6 2.5 6 6"/>',
+        14: '<path d="M5 6l4 4h6l4-4-2 11-5 3-5-3L5 6z"/>',
+        15: '<circle cx="12" cy="13" r="6"/><circle cx="7.5" cy="7.5" r="2"/><circle cx="16.5" cy="7.5" r="2"/>',
+        16: '<path d="M12 2l2.4 7.2H22l-6 4.4 2.3 7.2L12 16.4 5.7 20.8 8 13.6 2 9.2h7.6L12 2z"/>',
+        17: '<path d="M4 14c4-5 8-5 12 0l4-2-3 5H7l-3-3z"/>',
+        18: '<path d="M7 10V6l3 2h4l3-2v4c1.5 1.5 2 3.5 1 6-1 2.5-3 4-6 4s-5-1.5-6-4c-1-2.5-.5-4.5 1-6z"/>',
+        19: '<path d="M8 21V7h8v14M6 7h12M9 4v3m6-3v3M6 21h12"/>',
+        20: '<circle cx="12" cy="12" r="7"/><path d="M12 5v14M5 12h14"/>',
+        21: '<path d="M3 20L10 6l4 7 3-4 4 11H3z"/>',
+        22: '<path d="M6 20V10l-3-3m15 13V10l3-3M6 10l6-6 6 6"/>',
+        23: '<path d="M6 15a5 5 0 0 1 10 0H6zm10 0c2 0 3 1.5 2 3"/>',
+        24: '<path d="M12 20.5S4 15 4 9.5A4.5 4.5 0 0 1 12 6.8 4.5 4.5 0 0 1 20 9.5C20 15 12 20.5 12 20.5z"/>',
+        25: '<circle cx="12" cy="13" r="6"/><path d="M9 5l3-2 3 2-3 2-3-2z"/>',
+        26: '<path d="M4 5a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V5zm4 0v14"/>',
+        27: '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/>',
+        28: '<circle cx="12" cy="7" r="3.5"/><path d="M6 21v-2a6 6 0 0 1 12 0v2"/>',
+        29: '<circle cx="12" cy="7" r="3.5"/><path d="M5 21l2.5-7h9L19 21H5z"/>',
+        30: '<path d="M12 3v18m0-14c-3 0-5 2-5 5 3 0 5-2 5-5zm0 0c3 0 5 2 5 5-3 0-5-2-5-5z"/>',
+        31: '<circle cx="12" cy="12" r="4.5"/><path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M4.93 19.07l1.41-1.41m11.32-11.32l1.41-1.41"/>',
+        32: '<path d="M19 14.5A7.5 7.5 0 0 1 9.5 5a7.5 7.5 0 1 0 9.5 9.5z"/>',
+        33: '<circle cx="8" cy="15" r="4"/><path d="M11 12l8-8m-3 3l2 2m-4-1l2 2"/>',
+        34: '<path d="M4 12c4-5 10-5 14 0-4 5-10 5-14 0zm14 0l3-3v6l-3-3z"/>',
+        35: '<path d="M12 5v16m0-16a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm-7 9a7 7 0 0 0 14 0M8 10h8"/>',
+        36: '<path d="M12 3v18M6 9h12"/>'
+      };
+      return `<svg class="w-8 h-8 text-roseDark/80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">${symbols[num] || symbols[16]}</svg>`;
+    }
+
+    function showToast(message, type = 'success') {
+      const container = document.getElementById('toast-container');
+      const el = document.createElement('div');
+      el.className = `pointer-events-auto px-4 py-3 rounded-2xl shadow-lg border text-sm font-medium flex items-center gap-2.5 fade-in ${
+        type === 'warning'
+          ? 'bg-roseLight border-roseDark text-roseDark'
+          : 'bg-roseWhite border-roseMedium text-inkText'
+      }`;
+      el.innerHTML = `
+        <span class="w-2.5 h-2.5 rounded-full bg-roseDark shrink-0"></span>
+        <span>${message}</span>
+      `;
+      container.appendChild(el);
+      setTimeout(() => {
+        el.style.opacity = '0';
+        el.style.transition = 'opacity 0.3s ease';
+        setTimeout(() => el.remove(), 300);
+      }, 3200);
+    }
+
+    // ----------------------------------------------------------------------------
+    // 6. NAVEGAÇÃO E RENDERIZAÇÃO DAS 8 PÁGINAS
+    // ----------------------------------------------------------------------------
+
+    const NAV_ITEMS = [
+      { id: 'dashboard', label: 'Dashboard', icon: 'layout-dashboard' },
+      { id: 'schedule', label: 'Cronograma diário', icon: 'calendar-days' },
+      { id: 'modules', label: 'Módulos de estudo', icon: 'book-open' },
+      { id: 'encyclopedia', label: 'Enciclopédia das 36 cartas', icon: 'sparkles' },
+      { id: 'combinations', label: 'Combinações', icon: 'git-merge' },
+      { id: 'revisions', label: 'Revisões', icon: 'rotate-ccw' },
+      { id: 'progress', label: 'Progresso', icon: 'bar-chart-3' },
+      { id: 'settings', label: 'Configurações', icon: 'settings' }
+    ];
+
+    function renderNavigation() {
+      const nav = document.getElementById('main-nav');
+      nav.innerHTML = NAV_ITEMS.map(item => {
+        const isActive = currentRoute === item.id;
+        return `
+          <button
+            onclick="navigateTo('${item.id}')"
+            class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm transition-all text-left ${
+              isActive
+                ? 'nav-item-active shadow-xs'
+                : 'text-inkText/80 hover:bg-roseLight/70 hover:text-roseDark'
+            }"
+          >
+            <i data-lucide="${item.icon}" class="w-4 h-4 shrink-0 ${isActive ? 'text-roseDark' : 'text-roseAntique'}"></i>
+            <span class="truncate">${item.label}</span>
+          </button>
+        `;
+      }).join('');
+      lucide.createIcons();
+    }
+
+    function updateSidebarMetrics() {
+      const stats = getGlobalStats();
+      const bar = document.getElementById('sidebar-progress-bar');
+      const txt = document.getElementById('sidebar-progress-text');
+      const badge = document.getElementById('sidebar-status-badge');
+      if (bar) bar.style.width = `${stats.overallPercent}%`;
+      if (txt) txt.textContent = `${stats.overallPercent}%`;
+      if (badge) {
+        badge.innerHTML = state.settings.isPaused
+          ? `<span class="w-2 h-2 rounded-full bg-roseAntique inline-block"></span><span>Estudos em pausa</span>`
+          : `<span class="w-2 h-2 rounded-full bg-roseDark inline-block"></span><span>Dia ${getNextPendingDay()?.day || 1} de ${stats.totalDays}</span>`;
+      }
+    }
+
+    function navigateTo(route, opts = {}) {
+      currentRoute = route;
+      if (opts.moduleId !== undefined) scheduleFilterModule = String(opts.moduleId);
+      if (opts.dayNum !== undefined) selectedScheduleDay = opts.dayNum;
+
+      // Fechar drawer mobile
+      document.getElementById('sidebar').classList.add('-translate-x-full');
+      document.getElementById('mobile-backdrop').classList.add('hidden');
+
+      renderNavigation();
+      renderCurrentView();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function renderCurrentView() {
+      const container = document.getElementById('view-container');
+      container.classList.remove('fade-in');
+      void container.offsetWidth;
+      container.classList.add('fade-in');
+
+      switch (currentRoute) {
+        case 'dashboard':
+          container.innerHTML = renderDashboardView();
+          break;
+        case 'schedule':
+          container.innerHTML = renderScheduleView();
+          break;
+        case 'modules':
+          container.innerHTML = renderModulesView();
+          break;
+        case 'encyclopedia':
+          container.innerHTML = renderEncyclopediaView();
+          break;
+        case 'combinations':
+          container.innerHTML = renderCombinationsView();
+          break;
+        case 'revisions':
+          container.innerHTML = renderRevisionsView();
+          break;
+        case 'progress':
+          container.innerHTML = renderProgressView();
+          break;
+        case 'settings':
+          container.innerHTML = renderSettingsView();
+          break;
+        default:
+          container.innerHTML = renderDashboardView();
+      }
+
+      lucide.createIcons();
+      updateSidebarMetrics();
+    }
+
+    // ----------------------------------------------------------------------------
+    // PÁGINA 1: DASHBOARD
+    // ----------------------------------------------------------------------------
+    let calendarViewDate = new Date();
+
+    function renderDashboardView() {
+      const stats = getGlobalStats();
+      const todayDay = getNextPendingDay();
+      const nextAfterToday = todayDay && todayDay.day < stats.totalDays
+        ? getDayData(todayDay.day + 1)
+        : null;
+      const modInfo = todayDay ? MODULES_META.find(m => m.id === todayDay.moduleId) : null;
+
+      return `
+        <div class="space-y-6">
+          <!-- Cabeçalho de Boas-Vindas -->
+          <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+            <div>
+              <p class="text-xs uppercase tracking-[0.22em] text-roseAntique font-semibold mb-1">
+                ${formatFullDateBR()}
+              </p>
+              <h2 class="text-3xl sm:text-4xl font-bold text-roseDark">
+                Olá, ${escapeHTML(state.settings.studentName)} ✦
+              </h2>
+              <p class="text-sm text-inkText/75 mt-1">
+                Seu roteiro estruturado de estudos em Petit Lenormand.
+              </p>
+            </div>
+
+            <div class="flex flex-wrap items-center gap-2.5">
+              ${state.settings.isPaused ? `
+                <button onclick="togglePauseStudies()" class="px-4 py-2.5 rounded-xl bg-roseDark text-roseWhite text-sm font-medium shadow-sm hover:opacity-95 transition flex items-center gap-2">
+                  <i data-lucide="play" class="w-4 h-4"></i> Retomar Estudos
+                </button>
+              ` : `
+                <button onclick="navigateTo('schedule', { dayNum: ${todayDay?.day || 1} })" class="px-4 py-2.5 rounded-xl bg-roseLight border border-roseMedium text-roseDark text-sm font-medium hover:bg-rosePastel/70 transition flex items-center gap-2">
+                  <i data-lucide="book-marked" class="w-4 h-4"></i> Abrir Cronograma Completo
+                </button>
+              `}
+            </div>
+          </div>
+
+          <!-- Cartão de Destaque: ESTUDO DE HOJE -->
+          <section class="rounded-3xl p-6 sm:p-8 bg-gradient-to-br from-roseWhite via-roseLight/75 to-rosePastel/55 border border-roseMedium shadow-card relative overflow-hidden">
+            <div class="absolute -right-8 -top-8 w-40 h-40 rounded-full bg-roseMedium/15 pointer-events-none"></div>
+            <div class="relative z-10">
+              <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+                <div class="flex items-center gap-2.5">
+                  <span class="px-3.5 py-1 rounded-full bg-roseDark text-roseWhite text-xs font-semibold tracking-wider uppercase">
+                    Estudo de hoje
+                  </span>
+                  <span class="px-3 py-1 rounded-full bg-roseWhite/90 border border-rosePastel text-roseDark text-xs font-semibold">
+                    Dia ${todayDay.day} de ${stats.totalDays}
+                  </span>
+                  ${todayDay.scheduledDate ? `
+                    <span class="text-xs text-roseAntique font-medium hidden sm:inline">
+                      Data prevista: ${formatDateBR(todayDay.scheduledDate)}
+                    </span>
+                  ` : ''}
+                </div>
+                <span class="text-xs font-medium text-roseDark bg-roseWhite/80 px-3 py-1.5 rounded-xl border border-rosePastel flex items-center gap-1.5">
+                  <i data-lucide="clock" class="w-3.5 h-3.5 text-roseAntique"></i>
+                  Tempo estimado: ${state.settings.dailyMinutes || todayDay.estimatedMinutes} min
+                </span>
+              </div>
+
+              <div class="mb-5">
+                <p class="text-xs font-semibold uppercase tracking-widest text-roseAntique">
+                  ${modInfo?.code} — ${modInfo?.title}
+                </p>
+                <h3 class="text-2xl sm:text-3xl font-bold text-inkText mt-1">
+                  ${escapeHTML(todayDay.theme)}
+                </h3>
+              </div>
+
+              <!-- Checklist do Estudo de Hoje -->
+              <div class="bg-roseWhite/90 rounded-2xl p-4 sm:p-5 border border-rosePastel space-y-2.5 mb-6">
+                <p class="text-xs font-semibold uppercase tracking-wider text-roseAntique mb-2">
+                  Tópicos programados para pesquisa hoje:
+                </p>
+                ${todayDay.allTasks.map(task => {
+                  const checked = !!todayDay.checkedTasks?.[task.id];
+                  return `
+                    <label class="flex items-start gap-3 p-2.5 rounded-xl hover:bg-roseLight/50 transition cursor-pointer group">
+                      <input
+                        type="checkbox"
+                        class="rose-checkbox mt-0.5"
+                        ${checked ? 'checked' : ''}
+                        onchange="toggleDayTask(${todayDay.day}, '${task.id}')"
+                      />
+                      <span class="text-sm leading-relaxed ${checked ? 'line-through text-inkText/50' : 'text-inkText font-medium'}">
+                        ${escapeHTML(task.text)}
+                      </span>
+                    </label>
+                  `;
+                }).join('')}
+              </div>
+
+              <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div class="text-xs text-inkText/80">
+                  ${nextAfterToday ? `
+                    <span class="font-semibold text-roseDark">Próximo assunto (Dia ${nextAfterToday.day}):</span>
+                    <span>${escapeHTML(nextAfterToday.theme)}</span>
+                  ` : `<span>Você está na etapa final do cronograma!</span>`}
+                </div>
+
+                <div class="flex items-center gap-3">
+                  <button
+                    onclick="navigateTo('schedule', { dayNum: ${todayDay.day} })"
+                    class="px-4 py-2.5 rounded-xl bg-roseWhite border border-roseAntique/50 text-roseDark text-sm font-semibold hover:bg-roseLight transition"
+                  >
+                    Anotações do Dia
+                  </button>
+                  <button
+                    onclick="markDayCompleted(${todayDay.day})"
+                    class="px-5 py-2.5 rounded-xl bg-roseDark text-roseWhite text-sm font-semibold shadow-sm hover:bg-roseDark/90 transition flex items-center gap-2"
+                  >
+                    <i data-lucide="check-circle-2" class="w-4 h-4"></i>
+                    ${todayDay.status === 'completed' ? 'Dia Concluído' : 'Marcar dia como concluído'}
+                  </button>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Grid de KPIs -->
+          <section class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+            <div class="card-surface rounded-2xl p-5">
+              <div class="flex items-center justify-between mb-2">
+                <span class="text-xs font-semibold uppercase tracking-wider text-roseAntique">Progresso Geral</span>
+                <i data-lucide="award" class="w-4 h-4 text-roseDark"></i>
+              </div>
+              <p class="text-3xl font-serif font-bold text-roseDark">${stats.overallPercent}%</p>
+              <div class="w-full h-1.5 bg-roseLight rounded-full mt-2.5 overflow-hidden">
+                <div class="h-full bg-roseDark rounded-full" style="width: ${stats.overallPercent}%"></div>
+              </div>
+            </div>
+
+            <div class="card-surface rounded-2xl p-5">
+              <div class="flex items-center justify-between mb-2">
+                <span class="text-xs font-semibold uppercase tracking-wider text-roseAntique">Dias Concluídos</span>
+                <i data-lucide="calendar-check" class="w-4 h-4 text-roseDark"></i>
+              </div>
+              <p class="text-3xl font-serif font-bold text-inkText">${stats.completedDays}</p>
+              <p class="text-xs text-inkText/65 mt-1">de ${stats.totalDays} dias curriculares</p>
+            </div>
+
+            <div class="card-surface rounded-2xl p-5">
+              <div class="flex items-center justify-between mb-2">
+                <span class="text-xs font-semibold uppercase tracking-wider text-roseAntique">Dias Restantes</span>
+                <i data-lucide="hourglass" class="w-4 h-4 text-roseDark"></i>
+              </div>
+              <p class="text-3xl font-serif font-bold text-inkText">${stats.remainingDays}</p>
+              <p class="text-xs text-inkText/65 mt-1">etapas até a conclusão</p>
+            </div>
+
+            <div class="card-surface rounded-2xl p-5">
+              <div class="flex items-center justify-between mb-2">
+                <span class="text-xs font-semibold uppercase tracking-wider text-roseAntique">Sequência Atual</span>
+                <i data-lucide="flame" class="w-4 h-4 text-roseDark"></i>
+              </div>
+              <p class="text-3xl font-serif font-bold text-roseDark">${stats.streak} ${stats.streak === 1 ? 'dia' : 'dias'}</p>
+              <p class="text-xs text-inkText/65 mt-1">constância de estudo</p>
+            </div>
+          </section>
+
+          <!-- Calendário Mensal & Metas Pessoais -->
+          <section class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+            <!-- Calendário Mensal -->
+            <div class="lg:col-span-7 card-surface rounded-3xl p-6">
+              ${renderMonthlyCalendarWidget()}
+            </div>
+
+            <!-- Área de Metas Pessoais -->
+            <div class="lg:col-span-5 card-surface rounded-3xl p-6 flex flex-col justify-between">
+              <div>
+                <div class="flex items-center justify-between mb-4">
+                  <div>
+                    <h3 class="text-2xl font-bold text-roseDark">Metas Pessoais</h3>
+                    <p class="text-xs text-inkText/70">Objetivos paralelos da sua formação</p>
+                  </div>
+                  <span class="w-9 h-9 rounded-xl bg-roseLight flex items-center justify-center text-roseDark">
+                    <i data-lucide="target" class="w-4 h-4"></i>
+                  </span>
+                </div>
+
+                <form onsubmit="handleAddGoal(event)" class="flex gap-2 mb-4">
+                  <input
+                    id="new-goal-input"
+                    type="text"
+                    placeholder="Nova meta de estudo..."
+                    class="flex-1 px-3.5 py-2.5 rounded-xl bg-roseWhite border border-rosePastel text-sm focus:outline-none focus:border-roseDark"
+                  />
+                  <button type="submit" class="px-4 py-2.5 rounded-xl bg-roseDark text-roseWhite text-sm font-medium hover:opacity-95 transition">
+                    Adicionar
+                  </button>
+                </form>
+
+                <div class="space-y-2 max-h-64 overflow-y-auto pr-1">
+                  ${state.personalGoals.length === 0 ? `
+                    <p class="text-sm text-inkText/60 text-center py-6">Nenhuma meta pessoal cadastrada.</p>
+                  ` : state.personalGoals.map(goal => `
+                    <div class="flex items-center justify-between gap-2 p-3 rounded-xl bg-roseWhite border border-roseLight hover:border-rosePastel transition">
+                      <label class="flex items-center gap-3 cursor-pointer flex-1 min-w-0">
+                        <input
+                          type="checkbox"
+                          class="rose-checkbox"
+                          ${goal.done ? 'checked' : ''}
+                          onchange="togglePersonalGoal('${goal.id}')"
+                        />
+                        <span class="text-sm truncate ${goal.done ? 'line-through text-inkText/50' : 'text-inkText'}">
+                          ${escapeHTML(goal.text)}
+                        </span>
+                      </label>
+                      <button onclick="deletePersonalGoal('${goal.id}')" class="p-1.5 text-roseAntique hover:text-roseDark rounded-lg" title="Remover meta">
+                        <i data-lucide="trash-2" class="w-4 h-4"></i>
+                      </button>
+                    </div>
+                  `).join('')}
+                </div>
+              </div>
+
+              <div class="mt-5 pt-4 border-t border-roseLight flex items-center justify-between text-xs text-roseAntique">
+                <span>${state.personalGoals.filter(g => g.done).length} de ${state.personalGoals.length} metas concluídas</span>
+                <span>✦ Disciplina Oracular</span>
+              </div>
+            </div>
+          </section>
+        </div>
+      `;
+    }
+
+    function renderMonthlyCalendarWidget() {
+      const year = calendarViewDate.getFullYear();
+      const month = calendarViewDate.getMonth();
+      const monthName = calendarViewDate.toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' });
+
+      const firstDayWeek = new Date(year, month, 1).getDay();
+      const daysInMonth = new Date(year, month + 1, 0).getDate();
+      const todayISO = getTodayISO();
+
+      // Mapear datas em que dias do cronograma foram concluídos ou estão agendados
+      const completedDatesSet = new Set(state.activityDates);
+      Object.values(state.daysProgress).forEach(p => {
+        if (p.completedAt) completedDatesSet.add(p.completedAt);
+      });
+
+      const scheduledMap = {};
+      if (state.settings.startDate) {
+        CURRICULUM_DAYS.forEach(d => {
+          const dt = addDaysToISO(state.settings.startDate, d.day - 1);
+          scheduledMap[dt] = d.day;
+        });
+      }
+
+      let cells = '';
+      for (let i = 0; i < firstDayWeek; i++) {
+        cells += `<div class="h-10"></div>`;
+      }
+
+      for (let day = 1; day <= daysInMonth; day++) {
+        const iso = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+        const isCompleted = completedDatesSet.has(iso);
+        const isToday = iso === todayISO;
+        const scheduledDayNum = scheduledMap[iso];
+
+        cells += `
+          <button
+            ${scheduledDayNum ? `onclick="navigateTo('schedule', { dayNum: ${scheduledDayNum} })"` : ''}
+            title="${scheduledDayNum ? `Dia ${scheduledDayNum} do cronograma` : formatDateBR(iso)}"
+            class="h-10 rounded-xl text-xs font-medium flex flex-col items-center justify-center relative transition ${
+              isCompleted
+                ? 'bg-roseDark text-roseWhite font-semibold shadow-xs'
+                : isToday
+                  ? 'bg-rosePastel text-roseDark border border-roseDark font-bold'
+                  : scheduledDayNum
+                    ? 'bg-roseLight/60 text-inkText hover:bg-rosePastel/70'
+                    : 'text-inkText/70 hover:bg-roseLight/40'
+            }"
+          >
+            <span>${day}</span>
+            ${scheduledDayNum && !isCompleted ? `<span class="w-1 h-1 rounded-full bg-roseAntique mt-0.5"></span>` : ''}
+          </button>
+        `;
+      }
+
+      return `
+        <div>
+          <div class="flex items-center justify-between mb-4">
+            <div>
+              <h3 class="text-2xl font-bold text-roseDark capitalize">${monthName}</h3>
+              <p class="text-xs text-inkText/70">Dias estudados e agenda prevista</p>
+            </div>
+            <div class="flex items-center gap-1.5">
+              <button onclick="changeCalendarMonth(-1)" class="p-2 rounded-xl bg-roseLight text-roseDark hover:bg-rosePastel transition">
+                <i data-lucide="chevron-left" class="w-4 h-4"></i>
+              </button>
+              <button onclick="changeCalendarMonth(1)" class="p-2 rounded-xl bg-roseLight text-roseDark hover:bg-rosePastel transition">
+                <i data-lucide="chevron-right" class="w-4 h-4"></i>
+              </button>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-7 gap-1.5 text-center text-[11px] font-semibold text-roseAntique uppercase mb-2">
+            <div>Dom</div><div>Seg</div><div>Ter</div><div>Qua</div><div>Qui</div><div>Sex</div><div>Sáb</div>
+          </div>
+          <div class="grid grid-cols-7 gap-1.5">
+            ${cells}
+          </div>
+
+          <div class="mt-4 pt-3 border-t border-roseLight flex flex-wrap items-center gap-4 text-[11px] text-inkText/75">
+            <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-sm bg-roseDark inline-block"></span> Estudo realizado</span>
+            <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-sm bg-rosePastel border border-roseDark inline-block"></span> Hoje</span>
+            <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-sm bg-roseLight inline-block"></span> Dia programado</span>
+          </div>
+        </div>
+      `;
+    }
+
+    function changeCalendarMonth(delta) {
+      calendarViewDate = new Date(calendarViewDate.getFullYear(), calendarViewDate.getMonth() + delta, 1);
+      renderCurrentView();
+    }
+
+    function handleAddGoal(e) {
+      e.preventDefault();
+      const input = document.getElementById('new-goal-input');
+      const text = input.value.trim();
+      if (!text) return;
+      state.personalGoals.unshift({ id: `goal_${Date.now()}`, text, done: false });
+      saveState();
+      renderCurrentView();
+    }
+
+    function togglePersonalGoal(id) {
+      const g = state.personalGoals.find(x => x.id === id);
+      if (g) {
+        g.done = !g.done;
+        saveState();
+        renderCurrentView();
+      }
+    }
+
+    function deletePersonalGoal(id) {
+      state.personalGoals = state.personalGoals.filter(x => x.id !== id);
+      saveState();
+      renderCurrentView();
+    }
+
+    // ----------------------------------------------------------------------------
+    // PÁGINA 2: CRONOGRAMA DIÁRIO
+    // ----------------------------------------------------------------------------
+
+    function renderScheduleView() {
+      const filteredDays = CURRICULUM_DAYS.map(d => getDayData(d.day)).filter(day => {
+        if (scheduleFilterModule !== 'all' && String(day.moduleId) !== scheduleFilterModule) return false;
+        if (scheduleFilterStatus === 'pending' && day.status === 'completed') return false;
+        if (scheduleFilterStatus === 'completed' && day.status !== 'completed') return false;
+        if (scheduleSearchQuery.trim() !== '') {
+          const q = scheduleSearchQuery.toLowerCase();
+          const inTheme = day.theme.toLowerCase().includes(q);
+          const inTasks = day.allTasks.some(t => t.text.toLowerCase().includes(q));
+          const inDayNum = `dia ${day.day}`.includes(q);
+          if (!inTheme && !inTasks && !inDayNum) return false;
+        }
+        return true;
+      });
+
+      // Garantir que há um dia focado válido
+      if (!selectedScheduleDay || !filteredDays.some(d => d.day === selectedScheduleDay)) {
+        selectedScheduleDay = filteredDays.length > 0 ? filteredDays[0].day : null;
+      }
+
+      const activeDay = selectedScheduleDay ? getDayData(selectedScheduleDay) : null;
+      const activeMod = activeDay ? MODULES_META.find(m => m.id === activeDay.moduleId) : null;
+      const currentIndexInFiltered = filteredDays.findIndex(d => d.day === selectedScheduleDay);
+
+      return `
+        <div class="space-y-6">
+          <!-- Cabeçalho -->
+          <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div>
+              <span class="text-xs uppercase tracking-[0.2em] text-roseAntique font-semibold">Currículo Estruturado</span>
+              <h2 class="text-3xl sm:text-4xl font-bold text-roseDark">Cronograma Diário</h2>
+              <p class="text-sm text-inkText/75 mt-0.5">
+                ${CURRICULUM_DAYS.length} dias sequenciais organizados por pré-requisitos pedagógicos.
+              </p>
+            </div>
+
+            <button
+              onclick="resumeLastStudiedDay()"
+              class="self-start md:self-auto px-4 py-2.5 rounded-xl bg-roseDark text-roseWhite text-sm font-semibold shadow-sm hover:opacity-95 transition flex items-center gap-2"
+            >
+              <i data-lucide="compass" class="w-4 h-4"></i>
+              Retomar último dia estudado
+            </button>
+          </div>
+
+          <!-- Barra de Filtros e Pesquisa -->
+          <div class="card-surface rounded-2xl p-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-3">
+            <div class="lg:col-span-5 relative">
+              <i data-lucide="search" class="w-4 h-4 text-roseAntique absolute left-3.5 top-3.5"></i>
+              <input
+                type="text"
+                value="${escapeHTML(scheduleSearchQuery)}"
+                oninput="scheduleSearchQuery = this.value; renderCurrentView()"
+                placeholder="Pesquisar tema, carta ou tópico..."
+                class="w-full pl-10 pr-4 py-2.5 rounded-xl bg-roseWhite border border-rosePastel text-sm focus:outline-none focus:border-roseDark"
+              />
+            </div>
+
+            <div class="lg:col-span-4">
+              <select
+                onchange="scheduleFilterModule = this.value; renderCurrentView()"
+                class="w-full px-3.5 py-2.5 rounded-xl bg-roseWhite border border-rosePastel text-sm text-inkText focus:outline-none focus:border-roseDark"
+              >
+                <option value="all" ${scheduleFilterModule === 'all' ? 'selected' : ''}>Todos os Módulos (1 a 8)</option>
+                ${MODULES_META.map(m => `
+                  <option value="${m.id}" ${scheduleFilterModule === String(m.id) ? 'selected' : ''}>
+                    ${m.code}: ${m.title}
+                  </option>
+                `).join('')}
+              </select>
+            </div>
+
+            <div class="lg:col-span-3 flex rounded-xl bg-roseLight/70 p-1 border border-rosePastel">
+              ${[
+                { id: 'all', label: 'Todos' },
+                { id: 'pending', label: 'Pendentes' },
+                { id: 'completed', label: 'Concluídos' }
+              ].map(st => `
+                <button
+                  onclick="scheduleFilterStatus = '${st.id}'; renderCurrentView()"
+                  class="flex-1 py-1.5 text-xs font-semibold rounded-lg transition ${
+                    scheduleFilterStatus === st.id
+                      ? 'bg-roseDark text-roseWhite shadow-xs'
+                      : 'text-roseDark hover:bg-roseWhite/60'
+                  }"
+                >
+                  ${st.label}
+                </button>
+              `).join('')}
+            </div>
+          </div>
+
+          ${filteredDays.length === 0 ? `
+            <div class="card-surface rounded-3xl p-12 text-center">
+              <p class="font-serif text-2xl text-roseDark mb-2">Nenhum dia encontrado com os filtros atuais</p>
+              <button onclick="scheduleFilterModule='all'; scheduleFilterStatus='all'; scheduleSearchQuery=''; renderCurrentView()" class="mt-2 px-4 py-2 rounded-xl bg-roseLight text-roseDark text-sm font-medium">
+                Limpar filtros
+              </button>
+            </div>
+          ` : `
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+              <!-- Lista Lateral de Dias -->
+              <div class="lg:col-span-5 card-surface rounded-3xl p-4 max-h-[72vh] overflow-y-auto space-y-2">
+                <div class="px-2 py-1 flex items-center justify-between text-xs text-roseAntique font-semibold">
+                  <span>Exibindo ${filteredDays.length} dias</span>
+                  <span>Selecione para detalhar</span>
+                </div>
+                ${filteredDays.map(d => {
+                  const isSelected = d.day === selectedScheduleDay;
+                  const statusBadge = d.status === 'completed'
+                    ? '<span class="px-2 py-0.5 rounded-full bg-roseDark text-roseWhite text-[10px] font-semibold">Concluído</span>'
+                    : d.status === 'in_progress'
+                      ? '<span class="px-2 py-0.5 rounded-full bg-rosePastel text-roseDark text-[10px] font-semibold">Em andamento</span>'
+                      : '<span class="px-2 py-0.5 rounded-full bg-roseLight text-roseAntique text-[10px] font-semibold">Não iniciado</span>';
+
+                  return `
+                    <button
+                      onclick="selectedScheduleDay = ${d.day}; renderCurrentView()"
+                      class="w-full text-left p-3.5 rounded-2xl border transition ${
+                        isSelected
+                          ? 'bg-gradient-to-r from-roseLight to-rosePastel/50 border-roseDark shadow-xs'
+                          : 'bg-roseWhite/80 border-roseLight hover:border-roseMedium'
+                      }"
+                    >
+                      <div class="flex items-center justify-between gap-2 mb-1">
+                        <span class="text-xs font-bold text-roseDark">
+                          DIA ${String(d.day).padStart(3, '0')}
+                          ${d.scheduledDate ? `<span class="font-normal text-roseAntique">• ${formatDateBR(d.scheduledDate)}</span>` : ''}
+                        </span>
+                        ${statusBadge}
+                      </div>
+                      <p class="text-sm font-semibold text-inkText line-clamp-1">${escapeHTML(d.theme)}</p>
+                      <p class="text-[11px] text-inkText/65 mt-0.5">Módulo ${d.moduleId} • ${d.allTasks.length} tópicos</p>
+                    </button>
+                  `;
+                }).join('')}
+              </div>
+
+              <!-- Painel Detalhado do Dia Selecionado -->
+              ${activeDay ? `
+                <div class="lg:col-span-7 card-surface rounded-3xl p-6 sm:p-7 space-y-6">
+                  <!-- Navegação Anterior / Próximo -->
+                  <div class="flex items-center justify-between gap-2 pb-4 border-b border-roseLight">
+                    <button
+                      ${currentIndexInFiltered <= 0 ? 'disabled' : ''}
+                      onclick="selectedScheduleDay = ${filteredDays[currentIndexInFiltered - 1]?.day || activeDay.day}; renderCurrentView()"
+                      class="px-3.5 py-2 rounded-xl bg-roseLight text-roseDark text-xs font-semibold disabled:opacity-40 hover:bg-rosePastel transition flex items-center gap-1.5"
+                    >
+                      <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i> Dia anterior
+                    </button>
+
+                    <span class="text-xs font-semibold uppercase tracking-widest text-roseAntique">
+                      Dia ${activeDay.day} de ${CURRICULUM_DAYS.length}
+                    </span>
+
+                    <button
+                      ${currentIndexInFiltered >= filteredDays.length - 1 ? 'disabled' : ''}
+                      onclick="selectedScheduleDay = ${filteredDays[currentIndexInFiltered + 1]?.day || activeDay.day}; renderCurrentView()"
+                      class="px-3.5 py-2 rounded-xl bg-roseLight text-roseDark text-xs font-semibold disabled:opacity-40 hover:bg-rosePastel transition flex items-center gap-1.5"
+                    >
+                      Próximo dia <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+                    </button>
+                  </div>
+
+                  <!-- Cabeçalho do Dia -->
+                  <div>
+                    <div class="flex flex-wrap items-center gap-2 mb-2">
+                      <span class="px-3 py-1 rounded-full bg-roseLight border border-rosePastel text-roseDark text-xs font-semibold">
+                        ${activeMod?.code} — ${activeMod?.title}
+                      </span>
+                      ${activeDay.scheduledDate ? `
+                        <span class="px-3 py-1 rounded-full bg-roseWhite border border-roseLight text-roseAntique text-xs font-medium">
+                          Data: ${formatDateBR(activeDay.scheduledDate)}
+                        </span>
+                      ` : ''}
+                      <span class="px-3 py-1 rounded-full bg-roseWhite border border-roseLight text-roseAntique text-xs font-medium">
+                        ⏱ ${state.settings.dailyMinutes || activeDay.estimatedMinutes} min
+                      </span>
+                    </div>
+
+                    <h3 class="text-2xl sm:text-3xl font-bold text-inkText leading-snug">
+                      ${escapeHTML(activeDay.theme)}
+                    </h3>
+
+                    ${activeDay.cardRef ? `
+                      <button
+                        onclick="openCardModal(${activeDay.cardRef})"
+                        class="mt-3 inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-roseLight/80 hover:bg-rosePastel text-roseDark text-xs font-semibold border border-roseMedium/60 transition"
+                      >
+                        <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
+                        Abrir Ficha Completa da Carta ${activeDay.cardRef}
+                      </button>
+                    ` : ''}
+                  </div>
+
+                  <!-- Checklist de Assuntos do Dia -->
+                  <div>
+                    <div class="flex items-center justify-between mb-3">
+                      <h4 class="font-serif text-xl font-bold text-roseDark">Assuntos a Estudar</h4>
+                      <span class="text-xs font-semibold text-roseAntique">
+                        ${activeDay.allTasks.filter(t => activeDay.checkedTasks?.[t.id]).length}/${activeDay.allTasks.length} concluídos
+                      </span>
+                    </div>
+
+                    <div class="space-y-2">
+                      ${activeDay.allTasks.map(task => {
+                        const checked = !!activeDay.checkedTasks?.[task.id];
+                        return `
+                          <label class="flex items-start gap-3 p-3 rounded-2xl bg-roseWhite border border-roseLight hover:border-rosePastel transition cursor-pointer">
+                            <input
+                              type="checkbox"
+                              class="rose-checkbox mt-0.5"
+                              ${checked ? 'checked' : ''}
+                              onchange="toggleDayTask(${activeDay.day}, '${task.id}')"
+                            />
+                            <span class="text-sm leading-relaxed ${checked ? 'line-through text-inkText/50' : 'text-inkText'}">
+                              ${escapeHTML(task.text)}
+                            </span>
+                          </label>
+                        `;
+                      }).join('')}
+                    </div>
+
+                    <!-- Adicionar tarefa pessoal ao dia -->
+                    <form onsubmit="handleAddDayCustomTask(event, ${activeDay.day})" class="mt-3 flex gap-2">
+                      <input
+                        id="custom-task-day-${activeDay.day}"
+                        type="text"
+                        placeholder="Adicionar tópico extra de pesquisa para este dia..."
+                        class="flex-1 px-3.5 py-2 rounded-xl bg-roseWhite border border-rosePastel text-xs focus:outline-none focus:border-roseDark"
+                      />
+                      <button type="submit" class="px-3.5 py-2 rounded-xl bg-roseLight text-roseDark text-xs font-semibold hover:bg-rosePastel transition">
+                        + Adicionar
+                      </button>
+                    </form>
+                  </div>
+
+                  <!-- Campo de Anotações Pessoais -->
+                  <div>
+                    <div class="flex items-center justify-between mb-2">
+                      <label class="font-serif text-xl font-bold text-roseDark">Anotações Pessoais & Fichamento</label>
+                      <span class="text-[11px] text-roseAntique">Salvo automaticamente</span>
+                    </div>
+                    <textarea
+                      rows="5"
+                      oninput="updateDayNotes(${activeDay.day}, this.value)"
+                      placeholder="Registre aqui suas referências bibliográficas, observações iconográficas, dúvidas para revisão e sínteses pessoais..."
+                      class="w-full p-4 rounded-2xl bg-roseWhite border border-rosePastel text-sm leading-relaxed focus:outline-none focus:border-roseDark"
+                    >${escapeHTML(activeDay.notes || '')}</textarea>
+                  </div>
+
+                  <!-- Botão Concluir Dia -->
+                  <div class="pt-2 flex flex-wrap items-center justify-between gap-3">
+                    <div class="text-xs text-inkText/70">
+                      Status atual:
+                      <strong class="text-roseDark">
+                        ${activeDay.status === 'completed' ? 'Concluído' : activeDay.status === 'in_progress' ? 'Em andamento' : 'Não iniciado'}
+                      </strong>
+                    </div>
+
+                    <button
+                      onclick="markDayCompleted(${activeDay.day})"
+                      class="px-6 py-3 rounded-2xl font-semibold text-sm shadow-sm transition flex items-center gap-2 ${
+                        activeDay.status === 'completed'
+                          ? 'bg-roseLight border border-roseDark text-roseDark hover:bg-rosePastel'
+                          : 'bg-roseDark text-roseWhite hover:opacity-95'
+                      }"
+                    >
+                      <i data-lucide="check-circle-2" class="w-4 h-4"></i>
+                      ${activeDay.status === 'completed' ? 'Desmarcar conclusão do dia' : 'Concluir este dia de estudo'}
+                    </button>
+                  </div>
+                </div>
+              ` : ''}
+            </div>
+          `}
+        </div>
+      `;
+    }
+
+    function resumeLastStudiedDay() {
+      scheduleFilterModule = 'all';
+      scheduleFilterStatus = 'all';
+      scheduleSearchQuery = '';
+      selectedScheduleDay = getNextPendingDay()?.day || getLastStudiedDay();
+      renderCurrentView();
+      showToast(`Retomando no Dia ${selectedScheduleDay}.`);
+    }
+
+    function handleAddDayCustomTask(e, dayNum) {
+      e.preventDefault();
+      const inp = document.getElementById(`custom-task-day-${dayNum}`);
+      if (!inp) return;
+      addCustomTaskToDay(dayNum, inp.value);
+    }
+
+    // ----------------------------------------------------------------------------
+    // PÁGINA 3: MÓDULOS DE ESTUDO
+    // ----------------------------------------------------------------------------
+
+    function renderModulesView() {
+      return `
+        <div class="space-y-6">
+          <div>
+            <span class="text-xs uppercase tracking-[0.2em] text-roseAntique font-semibold">Estrutura Pedagógica</span>
+            <h2 class="text-3xl sm:text-4xl font-bold text-roseDark">Módulos de Estudo</h2>
+            <p class="text-sm text-inkText/75 mt-1">
+              Visão panorâmica dos 8 módulos progressivos da formação em Petit Lenormand.
+            </p>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            ${MODULES_META.map(mod => {
+              const prog = getModuleProgress(mod.id);
+              const modDays = CURRICULUM_DAYS.filter(d => d.moduleId === mod.id);
+              const firstDay = modDays[0]?.day || 1;
+              const lastDay = modDays[modDays.length - 1]?.day || 1;
+
+              // Amostra de tópicos principais do módulo
+              const sampleTopics = mod.id === 4
+                ? ["Estudo sistemático das 36 cartas em 10 categorias: Identidade, Psicologia, Aparência, Sexualidade, Amor, Espiritualidade, Saúde, Vida Material, Temporalidade e Interpretação Divinatória."]
+                : modDays.flatMap(d => d.tasks.map(t => t.text)).slice(0, 6);
+
+              return `
+                <div class="card-surface rounded-3xl p-6 flex flex-col justify-between">
+                  <div>
+                    <div class="flex items-center justify-between gap-2 mb-2">
+                      <span class="px-3 py-1 rounded-full bg-roseLight border border-rosePastel text-roseDark text-xs font-bold tracking-wider">
+                        ${mod.code}
+                      </span>
+                      <span class="text-xs font-semibold text-roseAntique">
+                        Dias ${firstDay} a ${lastDay} (${modDays.length} dias)
+                      </span>
+                    </div>
+
+                    <h3 class="text-2xl font-bold text-inkText mt-2">${mod.title}</h3>
+                    <p class="text-xs text-inkText/75 mt-1 leading-relaxed">${mod.subtitle}</p>
+
+                    <!-- Barra de Progresso -->
+                    <div class="mt-4 mb-5">
+                      <div class="flex items-center justify-between text-xs font-semibold mb-1.5">
+                        <span class="text-roseDark">${prog.completed} de ${prog.total} dias concluídos</span>
+                        <span class="text-roseDark">${prog.percent}%</span>
+                      </div>
+                      <div class="w-full h-2 bg-roseLight rounded-full overflow-hidden">
+                        <div class="h-full bg-gradient-to-r from-roseAntique to-roseDark rounded-full transition-all duration-500" style="width: ${prog.percent}%"></div>
+                      </div>
+                    </div>
+
+                    <!-- Ementa resumida -->
+                    <div class="bg-roseWhite/90 rounded-2xl p-4 border border-roseLight space-y-1.5">
+                      <p class="text-[11px] font-semibold uppercase tracking-wider text-roseAntique mb-1">Ementa do Módulo:</p>
+                      ${sampleTopics.map(t => `
+                        <div class="text-xs text-inkText/85 flex items-start gap-2">
+                          <span class="text-roseDark mt-0.5">✦</span>
+                          <span>${escapeHTML(t)}</span>
+                        </div>
+                      `).join('')}
+                      ${mod.id !== 4 && modDays.flatMap(d => d.tasks).length > 6 ? `
+                        <p class="text-[11px] text-roseAntique italic pt-1">+ outros tópicos detalhados no cronograma...</p>
+                      ` : ''}
+                    </div>
+                  </div>
+
+                  <div class="mt-5 pt-4 border-t border-roseLight flex items-center justify-between">
+                    <span class="text-xs font-medium text-inkText/70">
+                      Status: <strong class="text-roseDark">${prog.percent === 100 ? 'Concluído' : prog.percent > 0 ? 'Em andamento' : 'Não iniciado'}</strong>
+                    </span>
+                    <button
+                      onclick="navigateTo('schedule', { moduleId: ${mod.id}, dayNum: ${firstDay} })"
+                      class="px-4 py-2 rounded-xl bg-roseLight hover:bg-rosePastel text-roseDark text-xs font-semibold transition flex items-center gap-1.5"
+                    >
+                      Estudar Módulo <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+                    </button>
+                  </div>
+                </div>
+              `;
+            }).join('')}
+          </div>
+        </div>
+      `;
+    }
+
+    // ----------------------------------------------------------------------------
+    // PÁGINA 4: ENCICLOPÉDIA DAS 36 CARTAS
+    // ----------------------------------------------------------------------------
+    let encyclopediaSearch = '';
+    let encyclopediaStatusFilter = 'all';
+
+    function renderEncyclopediaView() {
+      const cardsFiltered = LENORMAND_CARDS.filter(c => {
+        const prog = getCardProgress(c.num);
+        if (encyclopediaStatusFilter === 'completed' && prog.percent < 100) return false;
+        if (encyclopediaStatusFilter === 'in_progress' && (prog.percent === 0 || prog.percent === 100)) return false;
+        if (encyclopediaStatusFilter === 'not_started' && prog.percent > 0) return false;
+
+        if (encyclopediaSearch.trim() !== '') {
+          const q = encyclopediaSearch.toLowerCase();
+          if (!c.name.toLowerCase().includes(q) && !String(c.num).includes(q) && !c.suit.toLowerCase().includes(q)) {
+            return false;
+          }
+        }
+        return true;
+      });
+
+      return `
+        <div class="space-y-6">
+          <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+            <div>
+              <span class="text-xs uppercase tracking-[0.2em] text-roseAntique font-semibold">Fichamento Sistemático</span>
+              <h2 class="text-3xl sm:text-4xl font-bold text-roseDark">Enciclopédia das 36 Cartas</h2>
+              <p class="text-sm text-inkText/75 mt-1">
+                Clique em qualquer lâmina para abrir sua ficha acadêmica com os 10 eixos de pesquisa e checklist individual.
+              </p>
+            </div>
+          </div>
+
+          <!-- Busca e Filtros -->
+          <div class="card-surface rounded-2xl p-4 flex flex-col sm:flex-row gap-3">
+            <div class="relative flex-1">
+              <i data-lucide="search" class="w-4 h-4 text-roseAntique absolute left-3.5 top-3.5"></i>
+              <input
+                type="text"
+                value="${escapeHTML(encyclopediaSearch)}"
+                oninput="encyclopediaSearch = this.value; renderCurrentView()"
+                placeholder="Buscar carta por número, nome ou naipe..."
+                class="w-full pl-10 pr-4 py-2.5 rounded-xl bg-roseWhite border border-rosePastel text-sm focus:outline-none focus:border-roseDark"
+              />
+            </div>
+
+            <select
+              onchange="encyclopediaStatusFilter = this.value; renderCurrentView()"
+              class="px-4 py-2.5 rounded-xl bg-roseWhite border border-rosePastel text-sm text-inkText focus:outline-none focus:border-roseDark"
+            >
+              <option value="all" ${encyclopediaStatusFilter === 'all' ? 'selected' : ''}>Todas as 36 cartas</option>
+              <option value="not_started" ${encyclopediaStatusFilter === 'not_started' ? 'selected' : ''}>Não iniciadas</option>
+              <option value="in_progress" ${encyclopediaStatusFilter === 'in_progress' ? 'selected' : ''}>Em estudo</option>
+              <option value="completed" ${encyclopediaStatusFilter === 'completed' ? 'selected' : ''}>Concluídas (100%)</option>
+            </select>
+          </div>
+
+          <!-- Grade das 36 Cartas -->
+          <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+            ${cardsFiltered.map(card => {
+              const prog = getCardProgress(card.num);
+              return `
+                <button
+                  onclick="openCardModal(${card.num})"
+                  class="card-surface rounded-2xl p-4 text-left flex flex-col justify-between group hover:-translate-y-1 hover:shadow-card transition-all relative overflow-hidden"
+                >
+                  <div>
+                    <div class="flex items-center justify-between text-xs font-bold text-roseDark mb-2">
+                      <span class="px-2 py-0.5 rounded-md bg-roseLight border border-rosePastel">
+                        ${String(card.num).padStart(2, '0')}
+                      </span>
+                      <span class="text-[10px] font-medium text-roseAntique">${card.suit}</span>
+                    </div>
+
+                    <!-- Área ilustrativa / imagem personalizada -->
+                    <div class="w-full aspect-[3/4] rounded-xl bg-gradient-to-b from-roseWhite to-roseLight/80 border border-rosePastel/80 flex flex-col items-center justify-center mb-3 overflow-hidden relative">
+                      ${prog.customImage ? `
+                        <img src="${prog.customImage}" alt="${escapeHTML(card.name)}" class="w-full h-full object-cover" />
+                      ` : `
+                        <div class="p-3 rounded-full bg-roseWhite/90 border border-rosePastel group-hover:scale-110 transition-transform">
+                          ${getCardGeometricSVG(card.num)}
+                        </div>
+                        <span class="text-[10px] text-roseAntique/80 mt-2 font-medium">Lâmina ${card.num}</span>
+                      `}
+                    </div>
+
+                    <h3 class="font-serif text-lg font-bold text-inkText leading-tight group-hover:text-roseDark transition">
+                      ${escapeHTML(card.name)}
+                    </h3>
+                  </div>
+
+                  <div class="mt-3 pt-2.5 border-t border-roseLight">
+                    <div class="flex items-center justify-between text-[11px] font-semibold mb-1">
+                      <span class="text-roseAntique">${prog.status}</span>
+                      <span class="text-roseDark">${prog.percent}%</span>
+                    </div>
+                    <div class="w-full h-1.5 bg-roseLight rounded-full overflow-hidden">
+                      <div class="h-full bg-roseDark rounded-full transition-all" style="width: ${prog.percent}%"></div>
+                    </div>
+                  </div>
+                </button>
+              `;
+            }).join('')}
+          </div>
+        </div>
+      `;
+    }
+
+    // Modal da Ficha Individual da Carta (10 categorias completas)
+    function openCardModal(cardNum) {
+      const card = LENORMAND_CARDS.find(c => c.num === cardNum);
+      if (!card) return;
+      const prog = getCardProgress(cardNum);
+
+      const overlay = document.getElementById('modal-overlay');
+      const content = document.getElementById('modal-content');
+
+      content.innerHTML = `
+        <!-- Cabeçalho Fixo do Modal -->
+        <div class="p-5 sm:p-6 bg-gradient-to-r from-roseLight/90 to-rosePastel/50 border-b border-rosePastel flex items-center justify-between gap-4">
+          <div class="flex items-center gap-3.5">
+            <div class="w-12 h-12 rounded-2xl bg-roseWhite border border-roseMedium flex items-center justify-center font-serif text-2xl font-bold text-roseDark shadow-xs">
+              ${String(card.num).padStart(2, '0')}
+            </div>
+            <div>
+              <div class="flex flex-wrap items-center gap-2 text-xs text-roseAntique font-semibold">
+                <span>${card.suit}</span>
+                <span>•</span>
+                <span>Elemento: ${card.element}</span>
+              </div>
+              <h3 class="text-2xl sm:text-3xl font-bold text-inkText leading-tight">${escapeHTML(card.name)}</h3>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-3">
+            <div class="text-right hidden sm:block">
+              <span class="text-xs font-semibold text-roseAntique block">Progresso da Carta</span>
+              <span class="text-lg font-bold text-roseDark">${prog.checkedCount}/${prog.total} (${prog.percent}%)</span>
+            </div>
+            <button onclick="closeModal()" class="p-2.5 rounded-xl bg-roseWhite text-roseDark hover:bg-roseLight border border-rosePastel transition">
+              <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Corpo Rolável do Modal -->
+        <div class="p-5 sm:p-6 overflow-y-auto space-y-6 flex-1">
+          <!-- Barra de Progresso & Imagem Personalizada -->
+          <div class="grid grid-cols-1 md:grid-cols-12 gap-4 items-center bg-roseWhite p-4 rounded-2xl border border-rosePastel">
+            <div class="md:col-span-7 space-y-2">
+              <div class="flex justify-between text-xs font-semibold text-roseDark">
+                <span>Status: ${prog.status}</span>
+                <span>${prog.percent}% concluído</span>
+              </div>
+              <div class="w-full h-2.5 bg-roseLight rounded-full overflow-hidden">
+                <div class="h-full bg-roseDark rounded-full transition-all" style="width: ${prog.percent}%"></div>
+              </div>
+              <p class="text-[11px] text-inkText/70">
+                Marque cada tópico conforme concluir sua pesquisa bibliográfica e fichamento pessoal.
+              </p>
+            </div>
+
+            <div class="md:col-span-5 flex flex-col sm:flex-row md:flex-col gap-2">
+              <label class="cursor-pointer px-3.5 py-2 rounded-xl bg-roseLight hover:bg-rosePastel text-roseDark text-xs font-semibold text-center border border-roseMedium/60 transition">
+                📷 Adicionar Imagem do Meu Baralho
+                <input type="file" accept="image/*" class="hidden" onchange="handleCardImageUpload(event, ${card.num})" />
+              </label>
+              ${prog.customImage ? `
+                <button onclick="removeCardImage(${card.num})" class="text-[11px] text-roseAntique hover:text-roseDark underline">
+                  Remover imagem personalizada
+                </button>
+              ` : ''}
+            </div>
+          </div>
+
+          <!-- As 10 Categorias Obrigatórias -->
+          <div class="space-y-4">
+            ${CARD_STUDY_CATEGORIES.map(cat => {
+              const catCheckedCount = cat.topics.filter((_, idx) => prog.checkedTopics[`${cat.code}_${idx}`]).length;
+              const allCatDone = catCheckedCount === cat.topics.length;
+
+              return `
+                <details class="group rounded-2xl bg-roseWhite border border-rosePastel overflow-hidden" open>
+                  <summary class="px-4 py-3.5 bg-roseLight/50 hover:bg-roseLight/80 cursor-pointer flex items-center justify-between gap-2 list-none">
+                    <div class="flex items-center gap-2.5">
+                      <span class="w-7 h-7 rounded-lg bg-roseDark text-roseWhite text-xs font-bold flex items-center justify-center">
+                        ${cat.code}
+                      </span>
+                      <span class="font-serif text-xl font-bold text-inkText">${cat.title}</span>
+                    </div>
+
+                    <div class="flex items-center gap-3">
+                      <button
+                        type="button"
+                        onclick="event.stopPropagation(); toggleAllCardCategory(${card.num}, '${cat.code}', ${!allCatDone}); openCardModal(${card.num}); renderCurrentView();"
+                        class="text-[11px] font-semibold px-2.5 py-1 rounded-lg bg-roseWhite border border-rosePastel text-roseDark hover:bg-rosePastel/50"
+                      >
+                        ${allCatDone ? 'Desmarcar bloco' : 'Concluir bloco'}
+                      </button>
+                      <span class="text-xs font-semibold text-roseAntique">${catCheckedCount}/${cat.topics.length}</span>
+                    </div>
+                  </summary>
+
+                  <div class="p-4 grid grid-cols-1 sm:grid-cols-2 gap-2">
+                    ${cat.topics.map((topic, idx) => {
+                      const key = `${cat.code}_${idx}`;
+                      const isChecked = !!prog.checkedTopics[key];
+                      return `
+                        <label class="flex items-start gap-2.5 p-2 rounded-xl hover:bg-roseLight/40 cursor-pointer transition">
+                          <input
+                            type="checkbox"
+                            class="rose-checkbox mt-0.5"
+                            ${isChecked ? 'checked' : ''}
+                            onchange="toggleCardTopic(${card.num}, '${key}'); openCardModal(${card.num}); renderCurrentView();"
+                          />
+                          <span class="text-xs sm:text-sm ${isChecked ? 'line-through text-inkText/50' : 'text-inkText'}">
+                            ${escapeHTML(topic)}
+                          </span>
+                        </label>
+                      `;
+                    }).join('')}
+                  </div>
+                </details>
+              `;
+            }).join('')}
+          </div>
+
+          <!-- Caderno de Anotações da Carta -->
+          <div class="bg-roseWhite p-4 rounded-2xl border border-rosePastel">
+            <div class="flex items-center justify-between mb-2">
+              <label class="font-serif text-xl font-bold text-roseDark">Caderno de Pesquisa — ${escapeHTML(card.name)}</label>
+              <span class="text-[11px] text-roseAntique">Salvo automaticamente</span>
+            </div>
+            <textarea
+              rows="5"
+              oninput="updateCardNotes(${card.num}, this.value)"
+              placeholder="Escreva aqui suas sínteses pessoais, autores consultados e palavras-chave pesquisadas para esta carta..."
+              class="w-full p-3.5 rounded-xl bg-roseLight/30 border border-rosePastel text-sm focus:outline-none focus:border-roseDark"
+            >${escapeHTML(prog.notes)}</textarea>
+          </div>
+        </div>
+      `;
+
+      overlay.classList.remove('hidden');
+      overlay.classList.add('flex');
+      lucide.createIcons();
+    }
+
+    function closeModal() {
+      const overlay = document.getElementById('modal-overlay');
+      overlay.classList.add('hidden');
+      overlay.classList.remove('flex');
+    }
+
+    function updateCardNotes(cardNum, text) {
+      if (!state.cardsProgress[cardNum]) {
+        state.cardsProgress[cardNum] = { checkedTopics: {}, notes: '', customImage: '' };
+      }
+      state.cardsProgress[cardNum].notes = text;
+      saveState();
+    }
+
+    function handleCardImageUpload(e, cardNum) {
+      const file = e.target.files?.[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(evt) {
+        // Redimensionar imagem para economizar localStorage
+        const img = new Image();
+        img.onload = function() {
+          const canvas = document.createElement('canvas');
+          const maxW = 320;
+          const scale = Math.min(1, maxW / img.width);
+          canvas.width = img.width * scale;
+          canvas.height = img.height * scale;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+          const dataUrl = canvas.toDataURL('image/jpeg', 0.82);
+
+          if (!state.cardsProgress[cardNum]) {
+            state.cardsProgress[cardNum] = { checkedTopics: {}, notes: '', customImage: '' };
+          }
+          state.cardsProgress[cardNum].customImage = dataUrl;
+          saveState();
+          openCardModal(cardNum);
+          renderCurrentView();
+          showToast("Imagem da carta salva no seu planner!");
+        };
+        img.src = evt.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function removeCardImage(cardNum) {
+      if (state.cardsProgress[cardNum]) {
+        state.cardsProgress[cardNum].customImage = '';
+        saveState();
+        openCardModal(cardNum);
+        renderCurrentView();
+      }
+    }
+
+    // ----------------------------------------------------------------------------
+    // PÁGINA 5: COMBINAÇÕES (630 PARES ÚNICOS)
+    // ----------------------------------------------------------------------------
+
+    function renderCombinationsView() {
+      const stats = getGlobalStats();
+      const isSameCard = selectedComboA === selectedComboB;
+      const comboKey = getComboKey(selectedComboA, selectedComboB);
+      const comboData = state.combinationsProgress[comboKey] || {
+        checkedTopics: {},
+        notes: '',
+        completed: false
+      };
+
+      const cardA = LENORMAND_CARDS.find(c => c.num === selectedComboA);
+      const cardB = LENORMAND_CARDS.find(c => c.num === selectedComboB);
+
+      // Listar pares já iniciados/estudados
+      const studiedPairs = Object.entries(state.combinationsProgress)
+        .filter(([_, val]) => val.completed || Object.values(val.checkedTopics || {}).some(Boolean) || (val.notes && val.notes.trim() !== ''))
+        .map(([key, val]) => {
+          const [a, b] = key.split('-').map(Number);
+          return {
+            a, b,
+            cardA: LENORMAND_CARDS.find(c => c.num === a),
+            cardB: LENORMAND_CARDS.find(c => c.num === b),
+            completed: val.completed
+          };
+        });
+
+      return `
+        <div class="space-y-6">
+          <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+            <div>
+              <span class="text-xs uppercase tracking-[0.2em] text-roseAntique font-semibold">Sintaxe Cartomântica</span>
+              <h2 class="text-3xl sm:text-4xl font-bold text-roseDark">Estudo das Combinações</h2>
+              <p class="text-sm text-inkText/75 mt-1">
+                Organize sua pesquisa sistemática entre as 630 combinações únicas possíveis de pares distintos.
+              </p>
+            </div>
+
+            <div class="px-4 py-2.5 rounded-2xl bg-roseLight border border-rosePastel text-xs font-semibold text-roseDark">
+              Pares concluídos: <strong>${stats.completedCombos}</strong> / 630 (${Math.round((stats.completedCombos / 630) * 100)}%)
+            </div>
+          </div>
+
+          <!-- Seletor de Duas Cartas -->
+          <div class="card-surface rounded-3xl p-6">
+            <div class="grid grid-cols-1 md:grid-cols-11 gap-4 items-center">
+              <div class="md:col-span-5">
+                <label class="block text-xs font-semibold uppercase tracking-wider text-roseAntique mb-1.5">
+                  Primeira Carta (Tema)
+                </label>
+                <select
+                  onchange="selectedComboA = Number(this.value); renderCurrentView()"
+                  class="w-full px-4 py-3 rounded-xl bg-roseWhite border border-rosePastel text-sm font-medium text-inkText focus:outline-none focus:border-roseDark"
+                >
+                  ${LENORMAND_CARDS.map(c => `
+                    <option value="${c.num}" ${c.num === selectedComboA ? 'selected' : ''}>
+                      ${String(c.num).padStart(2, '0')}. ${c.name}
+                    </option>
+                  `).join('')}
+                </select>
+              </div>
+
+              <div class="md:col-span-1 flex justify-center pt-4 md:pt-5">
+                <button
+                  onclick="const tmp = selectedComboA; selectedComboA = selectedComboB; selectedComboB = tmp; renderCurrentView()"
+                  title="Inverter ordem das cartas"
+                  class="w-10 h-10 rounded-full bg-roseLight border border-roseMedium text-roseDark flex items-center justify-center hover:bg-rosePastel transition"
+                >
+                  <i data-lucide="arrow-left-right" class="w-4 h-4"></i>
+                </button>
+              </div>
+
+              <div class="md:col-span-5">
+                <label class="block text-xs font-semibold uppercase tracking-wider text-roseAntique mb-1.5">
+                  Segunda Carta (Modificadora)
+                </label>
+                <select
+                  onchange="selectedComboB = Number(this.value); renderCurrentView()"
+                  class="w-full px-4 py-3 rounded-xl bg-roseWhite border border-rosePastel text-sm font-medium text-inkText focus:outline-none focus:border-roseDark"
+                >
+                  ${LENORMAND_CARDS.map(c => `
+                    <option value="${c.num}" ${c.num === selectedComboB ? 'selected' : ''}>
+                      ${String(c.num).padStart(2, '0')}. ${c.name}
+                    </option>
+                  `).join('')}
+                </select>
+              </div>
+            </div>
+
+            ${isSameCard ? `
+              <div class="mt-6 p-4 rounded-2xl bg-roseLight/80 border border-roseMedium text-sm text-roseDark text-center">
+                Selecione duas cartas diferentes para estruturar o roteiro de combinação entre pares distintos.
+              </div>
+            ` : `
+              <div class="mt-6 pt-6 border-t border-roseLight">
+                <div class="flex flex-wrap items-center justify-between gap-3 mb-5">
+                  <div>
+                    <span class="text-xs font-semibold uppercase tracking-widest text-roseAntique">Roteiro de Pesquisa do Par</span>
+                    <h3 class="text-2xl sm:text-3xl font-bold text-inkText">
+                      ${String(cardA.num).padStart(2, '0')}. ${escapeHTML(cardA.name)}
+                      <span class="text-roseAntique mx-1.5">+</span>
+                      ${String(cardB.num).padStart(2, '0')}. ${escapeHTML(cardB.name)}
+                    </h3>
+                  </div>
+
+                  <span class="px-3.5 py-1.5 rounded-full text-xs font-semibold ${
+                    comboData.completed
+                      ? 'bg-roseDark text-roseWhite'
+                      : 'bg-roseLight text-roseDark border border-rosePastel'
+                  }">
+                    ${comboData.completed ? 'Par Concluído ✦' : 'Em Pesquisa'}
+                  </span>
+                </div>
+
+                <!-- 10 Eixos de Estudo da Combinação -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 mb-6">
+                  ${COMBINATION_TOPICS.map((topic, idx) => {
+                    const checked = !!comboData.checkedTopics?.[idx];
+                    return `
+                      <label class="flex items-center gap-3 p-3 rounded-2xl bg-roseWhite border border-roseLight hover:border-rosePastel cursor-pointer transition">
+                        <input
+                          type="checkbox"
+                          class="rose-checkbox"
+                          ${checked ? 'checked' : ''}
+                          onchange="toggleComboTopic(${selectedComboA}, ${selectedComboB}, ${idx})"
+                        />
+                        <span class="text-sm font-medium ${checked ? 'line-through text-inkText/50' : 'text-inkText'}">
+                          ${escapeHTML(topic)}
+                        </span>
+                      </label>
+                    `;
+                  }).join('')}
+                </div>
+
+                <!-- Anotações Pessoais do Par -->
+                <div>
+                  <label class="block font-serif text-xl font-bold text-roseDark mb-2">
+                    Anotações Pessoais da Combinação
+                  </label>
+                  <textarea
+                    rows="4"
+                    oninput="updateComboNotes(${selectedComboA}, ${selectedComboB}, this.value)"
+                    placeholder="Registre aqui suas observações sobre a interação simbólica entre ${escapeHTML(cardA.name)} e ${escapeHTML(cardB.name)}..."
+                    class="w-full p-4 rounded-2xl bg-roseWhite border border-rosePastel text-sm focus:outline-none focus:border-roseDark"
+                  >${escapeHTML(comboData.notes || '')}</textarea>
+                </div>
+              </div>
+            `}
+          </div>
+
+          <!-- Histórico de Pares Estudados -->
+          <div class="card-surface rounded-3xl p-6">
+            <h3 class="text-2xl font-bold text-roseDark mb-1">Pares Registrados no Seu Caderno</h3>
+            <p class="text-xs text-inkText/70 mb-4">Acesso rápido às combinações que você já iniciou ou concluiu.</p>
+
+            ${studiedPairs.length === 0 ? `
+              <p class="text-sm text-inkText/60 py-6 text-center bg-roseWhite rounded-2xl border border-roseLight">
+                Nenhum par registrado ainda. Selecione duas cartas acima para iniciar.
+              </p>
+            ` : `
+              <div class="flex flex-wrap gap-2">
+                ${studiedPairs.map(p => `
+                  <button
+                    onclick="selectedComboA = ${p.a}; selectedComboB = ${p.b}; renderCurrentView()"
+                    class="px-3.5 py-2 rounded-xl text-xs font-semibold border transition flex items-center gap-2 ${
+                      p.completed
+                        ? 'bg-roseLight border-roseDark text-roseDark'
+                        : 'bg-roseWhite border-rosePastel text-inkText hover:bg-roseLight/60'
+                    }"
+                  >
+                    <span>${p.a}. ${escapeHTML(p.cardA.name)} + ${p.b}. ${escapeHTML(p.cardB.name)}</span>
+                    ${p.completed ? '<span>✦</span>' : ''}
+                  </button>
+                `).join('')}
+              </div>
+            `}
+          </div>
+        </div>
+      `;
+    }
+
+    function updateComboNotes(a, b, text) {
+      if (a === b) return;
+      const key = getComboKey(a, b);
+      if (!state.combinationsProgress[key]) {
+        state.combinationsProgress[key] = { checkedTopics: {}, notes: '', completed: false };
+      }
+      state.combinationsProgress[key].notes = text;
+      saveState();
+    }
+
+    // ----------------------------------------------------------------------------
+    // PÁGINA 6: REVISÕES PROGRAMADAS
+    // ----------------------------------------------------------------------------
+
+    function renderRevisionsView() {
+      const completedDaysList = CURRICULUM_DAYS
+        .map(d => getDayData(d.day))
+        .filter(d => d.status === 'completed');
+
+      // Revisão 1: Último dia concluído (ou ontem)
+      const yesterdayRev = completedDaysList.slice(-1);
+      // Revisão 2: Últimos 7 dias concluídos
+      const weeklyRev = completedDaysList.slice(-7);
+      // Revisão 3: Últimos 30 dias concluídos
+      const monthlyRev = completedDaysList.slice(-30);
+
+      const renderRevBlock = (bucketKey, title, subtitle, daysList) => {
+        return `
+          <div class="card-surface rounded-3xl p-6 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between gap-2 mb-2">
+                <span class="px-3 py-1 rounded-full bg-roseLight border border-rosePastel text-roseDark text-xs font-bold uppercase">
+                  ${title}
+                </span>
+                <span class="text-xs text-roseAntique font-semibold">${daysList.length} dia(s)</span>
+              </div>
+              <p class="text-xs text-inkText/75 mb-4">${subtitle}</p>
+
+              ${daysList.length === 0 ? `
+                <div class="p-5 rounded-2xl bg-roseWhite border border-roseLight text-xs text-inkText/65 text-center">
+                  Conclua dias no cronograma para alimentar automaticamente este ciclo de revisão.
+                </div>
+              ` : `
+                <div class="space-y-2 max-h-64 overflow-y-auto pr-1">
+                  ${daysList.map(d => {
+                    const chkId = `${bucketKey}_d${d.day}`;
+                    const checked = !!state.revisionChecks[bucketKey]?.[chkId];
+                    return `
+                      <label class="flex items-start gap-2.5 p-2.5 rounded-xl bg-roseWhite border border-roseLight hover:border-rosePastel cursor-pointer">
+                        <input
+                          type="checkbox"
+                          class="rose-checkbox mt-0.5"
+                          ${checked ? 'checked' : ''}
+                          onchange="toggleRevisionItem('${bucketKey}', '${chkId}')"
+                        />
+                        <div class="text-xs">
+                          <span class="font-bold text-roseDark block">Dia ${d.day} — ${escapeHTML(d.theme)}</span>
+                          <span class="text-inkText/65">${d.tasks.length} tópicos para recapitular</span>
+                        </div>
+                      </label>
+                    `;
+                  }).join('')}
+                </div>
+              `}
+            </div>
+
+            ${daysList.length > 0 ? `
+              <button
+                onclick="completeRevisionSession('${bucketKey}', '${title}', ${daysList.length})"
+                class="mt-5 w-full py-2.5 rounded-xl bg-roseDark text-roseWhite text-xs font-semibold hover:opacity-95 transition"
+              >
+                Registrar Sessão de Revisão Concluída
+              </button>
+            ` : ''}
+          </div>
+        `;
+      };
+
+      return `
+        <div class="space-y-6">
+          <div>
+            <span class="text-xs uppercase tracking-[0.2em] text-roseAntique font-semibold">Consolidação de Memória</span>
+            <h2 class="text-3xl sm:text-4xl font-bold text-roseDark">Revisões Programadas</h2>
+            <p class="text-sm text-inkText/75 mt-1">
+              Ciclos espaçados (24h, 7 dias e 30 dias) baseados nos conteúdos que você já concluiu no cronograma.
+            </p>
+          </div>
+
+          <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            ${renderRevBlock(
+              'daily',
+              'Revisão Diária (24h)',
+              'Recapitulação ativa do último dia concluído no cronograma.',
+              yesterdayRev
+            )}
+            ${renderRevBlock(
+              'weekly',
+              'Revisão Semanal (7 dias)',
+              'Consolidação dos últimos 7 dias de estudo concluídos.',
+              weeklyRev
+            )}
+            ${renderRevBlock(
+              'monthly',
+              'Revisão Mensal (30 dias)',
+              'Síntese panorâmica dos últimos 30 dias concluídos.',
+              monthlyRev
+            )}
+          </div>
+
+          <!-- Histórico de Revisões -->
+          <div class="card-surface rounded-3xl p-6">
+            <h3 class="text-2xl font-bold text-roseDark mb-1">Histórico de Revisões Realizadas</h3>
+            <p class="text-xs text-inkText/70 mb-4">Registro cronológico das suas sessões de recapitulação.</p>
+
+            ${state.revisionsHistory.length === 0 ? `
+              <p class="text-sm text-inkText/60 text-center py-6 bg-roseWhite rounded-2xl border border-roseLight">
+                Nenhuma sessão de revisão registrada ainda.
+              </p>
+            ` : `
+              <div class="space-y-2">
+                ${state.revisionsHistory.map(rev => `
+                  <div class="flex flex-wrap items-center justify-between gap-2 p-3.5 rounded-2xl bg-roseWhite border border-roseLight text-xs">
+                    <div class="flex items-center gap-3">
+                      <span class="px-2.5 py-1 rounded-lg bg-roseLight text-roseDark font-bold">${formatDateBR(rev.date)}</span>
+                      <span class="font-semibold text-inkText">${escapeHTML(rev.label)}</span>
+                    </div>
+                    <span class="text-roseAntique font-medium">${rev.itemsCount} dia(s) revisado(s) ✦</span>
+                  </div>
+                `).join('')}
+              </div>
+            `}
+          </div>
+        </div>
+      `;
+    }
+
+    function toggleRevisionItem(bucket, chkId) {
+      if (!state.revisionChecks[bucket]) state.revisionChecks[bucket] = {};
+      state.revisionChecks[bucket][chkId] = !state.revisionChecks[bucket][chkId];
+      saveState();
+      renderCurrentView();
+    }
+
+    function completeRevisionSession(bucket, label, count) {
+      state.revisionsHistory.unshift({
+        id: `rev_${Date.now()}`,
+        date: getTodayISO(),
+        type: bucket,
+        label,
+        itemsCount: count
+      });
+      state.revisionChecks[bucket] = {};
+      recordActivityToday();
+      saveState();
+      renderCurrentView();
+      showToast(`${label} registrada no histórico!`);
+    }
+
+    // ----------------------------------------------------------------------------
+    // PÁGINA 7: PROGRESSO E ESTATÍSTICAS
+    // ----------------------------------------------------------------------------
+
+    function renderProgressView() {
+      const stats = getGlobalStats();
+
+      // Dados dos últimos 6 meses para gráfico mensal
+      const monthlyBars = [];
+      const now = new Date();
+      for (let i = 5; i >= 0; i--) {
+        const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+        const ym = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
+        const label = d.toLocaleDateString('pt-BR', { month: 'short' }).replace('.', '');
+        const count = state.activityDates.filter(dt => dt.startsWith(ym)).length;
+        monthlyBars.push({ label, count });
+      }
+      const maxMonthly = Math.max(1, ...monthlyBars.map(m => m.count));
+
+      return `
+        <div class="space-y-6">
+          <div>
+            <span class="text-xs uppercase tracking-[0.2em] text-roseAntique font-semibold">Indicadores Acadêmicos</span>
+            <h2 class="text-3xl sm:text-4xl font-bold text-roseDark">Progresso & Estatísticas</h2>
+            <p class="text-sm text-inkText/75 mt-1">
+              Acompanhamento mensurável da sua jornada pelo Petit Lenormand.
+            </p>
+          </div>
+
+          <!-- Cards de Resumo -->
+          <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3.5">
+            <div class="card-surface rounded-2xl p-4">
+              <span class="text-[11px] font-semibold uppercase text-roseAntique">Conclusão</span>
+              <p class="text-2xl font-serif font-bold text-roseDark mt-1">${stats.overallPercent}%</p>
+            </div>
+            <div class="card-surface rounded-2xl p-4">
+              <span class="text-[11px] font-semibold uppercase text-roseAntique">Dias Estudados</span>
+              <p class="text-2xl font-serif font-bold text-inkText mt-1">${stats.completedDays}</p>
+            </div>
+            <div class="card-surface rounded-2xl p-4">
+              <span class="text-[11px] font-semibold uppercase text-roseAntique">Dias Pendentes</span>
+              <p class="text-2xl font-serif font-bold text-inkText mt-1">${stats.remainingDays}</p>
+            </div>
+            <div class="card-surface rounded-2xl p-4">
+              <span class="text-[11px] font-semibold uppercase text-roseAntique">Horas Registradas</span>
+              <p class="text-2xl font-serif font-bold text-roseDark mt-1">${stats.studiedHours}h</p>
+            </div>
+            <div class="card-surface rounded-2xl p-4">
+              <span class="text-[11px] font-semibold uppercase text-roseAntique">Sequência</span>
+              <p class="text-2xl font-serif font-bold text-inkText mt-1">${stats.streak}d</p>
+            </div>
+            <div class="card-surface rounded-2xl p-4">
+              <span class="text-[11px] font-semibold uppercase text-roseAntique">Combinações</span>
+              <p class="text-2xl font-serif font-bold text-roseDark mt-1">${stats.completedCombos}/630</p>
+            </div>
+          </div>
+
+          <!-- Progresso por Módulo & Gráfico Mensal -->
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+            <div class="lg:col-span-7 card-surface rounded-3xl p-6">
+              <h3 class="text-2xl font-bold text-roseDark mb-4">Progresso por Módulo</h3>
+              <div class="space-y-4">
+                ${MODULES_META.map(mod => {
+                  const mp = getModuleProgress(mod.id);
+                  return `
+                    <div>
+                      <div class="flex justify-between text-xs font-semibold mb-1">
+                        <span class="text-inkText">${mod.code} — ${mod.title}</span>
+                        <span class="text-roseDark">${mp.completed}/${mp.total} (${mp.percent}%)</span>
+                      </div>
+                      <div class="w-full h-2.5 bg-roseLight rounded-full overflow-hidden">
+                        <div class="h-full bg-gradient-to-r from-roseMedium via-roseAntique to-roseDark rounded-full transition-all duration-500" style="width: ${mp.percent}%"></div>
+                      </div>
+                    </div>
+                  `;
+                }).join('')}
+              </div>
+            </div>
+
+            <div class="lg:col-span-5 card-surface rounded-3xl p-6 flex flex-col justify-between">
+              <div>
+                <h3 class="text-2xl font-bold text-roseDark mb-1">Histórico Mensal</h3>
+                <p class="text-xs text-inkText/70 mb-6">Dias ativos de estudo nos últimos 6 meses</p>
+
+                <div class="h-48 flex items-end justify-between gap-3 pt-4 px-2 border-b border-rosePastel">
+                  ${monthlyBars.map(m => {
+                    const heightPct = Math.max(8, Math.round((m.count / maxMonthly) * 100));
+                    return `
+                      <div class="flex-1 flex flex-col items-center gap-2 h-full justify-end">
+                        <span class="text-xs font-bold text-roseDark">${m.count}</span>
+                        <div class="w-full max-w-[38px] rounded-t-xl bg-gradient-to-t from-roseAntique to-rosePastel transition-all duration-500" style="height: ${heightPct}%"></div>
+                      </div>
+                    `;
+                  }).join('')}
+                </div>
+                <div class="flex justify-between gap-3 px-2 pt-2">
+                  ${monthlyBars.map(m => `
+                    <div class="flex-1 text-center text-xs font-semibold text-roseAntique capitalize">${m.label}</div>
+                  `).join('')}
+                </div>
+              </div>
+
+              <div class="mt-6 p-3.5 rounded-2xl bg-roseLight/60 border border-rosePastel text-xs text-inkText/80">
+                Total de dias com registro de atividade: <strong class="text-roseDark">${state.activityDates.length}</strong>
+              </div>
+            </div>
+          </div>
+
+          <!-- Progresso Individual das 36 Cartas -->
+          <div class="card-surface rounded-3xl p-6">
+            <div class="flex items-center justify-between mb-4">
+              <div>
+                <h3 class="text-2xl font-bold text-roseDark">Progresso por Carta (36 Lâminas)</h3>
+                <p class="text-xs text-inkText/70">Percentual de tópicos pesquisados em cada ficha individual</p>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3">
+              ${LENORMAND_CARDS.map(c => {
+                const cp = getCardProgress(c.num);
+                return `
+                  <button
+                    onclick="openCardModal(${c.num})"
+                    class="p-3 rounded-2xl bg-roseWhite border border-roseLight hover:border-roseMedium text-left transition"
+                  >
+                    <div class="flex justify-between text-xs font-bold mb-1">
+                      <span class="text-roseDark">${String(c.num).padStart(2, '0')}</span>
+                      <span class="text-roseAntique">${cp.percent}%</span>
+                    </div>
+                    <p class="text-xs font-semibold text-inkText truncate mb-1.5">${escapeHTML(c.name)}</p>
+                    <div class="w-full h-1.5 bg-roseLight rounded-full overflow-hidden">
+                      <div class="h-full bg-roseDark rounded-full" style="width: ${cp.percent}%"></div>
+                    </div>
+                  </button>
+                `;
+              }).join('')}
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    // ----------------------------------------------------------------------------
+    // PÁGINA 8: CONFIGURAÇÕES & EXPORTAÇÃO GITHUB PAGES
+    // ----------------------------------------------------------------------------
+
+    function renderSettingsView() {
+      return `
+        <div class="space-y-6">
+          <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+            <div>
+              <span class="text-xs uppercase tracking-[0.2em] text-roseAntique font-semibold">Personalização & Deploy</span>
+              <h2 class="text-3xl sm:text-4xl font-bold text-roseDark">Configurações do Planner</h2>
+              <p class="text-sm text-inkText/75 mt-1">
+                Ajuste seu cronograma, gerencie backups locais e acesse os arquivos de publicação no GitHub Pages.
+              </p>
+            </div>
+
+            <button
+              onclick="openGitHubPagesModal()"
+              class="self-start md:self-auto px-4 py-2.5 rounded-xl bg-roseDark text-roseWhite text-sm font-semibold shadow-sm hover:opacity-95 transition flex items-center gap-2"
+            >
+              <i data-lucide="github" class="w-4 h-4"></i>
+              Guia & Arquivos GitHub Pages
+            </button>
+          </div>
+
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <!-- Parâmetros de Estudo -->
+            <form onsubmit="saveSettingsForm(event)" class="card-surface rounded-3xl p-6 space-y-4">
+              <h3 class="text-2xl font-bold text-roseDark">Parâmetros da Formação</h3>
+
+              <div>
+                <label class="block text-xs font-semibold uppercase tracking-wider text-roseAntique mb-1">
+                  Nome da Estudante
+                </label>
+                <input
+                  id="cfg-name"
+                  type="text"
+                  value="${escapeHTML(state.settings.studentName)}"
+                  class="w-full px-4 py-2.5 rounded-xl bg-roseWhite border border-rosePastel text-sm focus:outline-none focus:border-roseDark"
+                />
+              </div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label class="block text-xs font-semibold uppercase tracking-wider text-roseAntique mb-1">
+                    Data de Início do Cronograma
+                  </label>
+                  <input
+                    id="cfg-start-date"
+                    type="date"
+                    value="${state.settings.startDate || ''}"
+                    class="w-full px-4 py-2.5 rounded-xl bg-roseWhite border border-rosePastel text-sm focus:outline-none focus:border-roseDark"
+                  />
+                </div>
+
+                <div>
+                  <label class="block text-xs font-semibold uppercase tracking-wider text-roseAntique mb-1">
+                    Tempo Diário Disponível (min)
+                  </label>
+                  <input
+                    id="cfg-daily-minutes"
+                    type="number"
+                    min="15"
+                    max="480"
+                    step="5"
+                    value="${state.settings.dailyMinutes}"
+                    class="w-full px-4 py-2.5 rounded-xl bg-roseWhite border border-rosePastel text-sm focus:outline-none focus:border-roseDark"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label class="block text-xs font-semibold uppercase tracking-wider text-roseAntique mb-1">
+                  Meta de Duração Total (dias)
+                </label>
+                <input
+                  id="cfg-duration"
+                  type="number"
+                  min="30"
+                  max="730"
+                  value="${state.settings.scheduleDurationTarget || CURRICULUM_DAYS.length}"
+                  class="w-full px-4 py-2.5 rounded-xl bg-roseWhite border border-rosePastel text-sm focus:outline-none focus:border-roseDark"
+                />
+                <p class="text-[11px] text-inkText/65 mt-1">
+                  Currículo base possui ${CURRICULUM_DAYS.length} dias estruturados.
+                </p>
+              </div>
+
+              <div class="pt-2">
+                <button type="submit" class="px-5 py-2.5 rounded-xl bg-roseDark text-roseWhite text-sm font-semibold hover:opacity-95 transition">
+                  Salvar Configurações
+                </button>
+              </div>
+            </form>
+
+            <!-- Controle de Fluxo e Backup -->
+            <div class="card-surface rounded-3xl p-6 flex flex-col justify-between space-y-6">
+              <div class="space-y-4">
+                <h3 class="text-2xl font-bold text-roseDark">Controle de Ritmo & Dados</h3>
+
+                <div class="p-4 rounded-2xl bg-roseWhite border border-roseLight flex items-center justify-between gap-4">
+                  <div>
+                    <p class="text-sm font-semibold text-inkText">
+                      ${state.settings.isPaused ? 'Estudos atualmente pausados' : 'Cronograma em andamento'}
+                    </p>
+                    <p class="text-xs text-inkText/70">
+                      Pause quando precisar fazer uma interrupção sem perder sua sequência.
+                    </p>
+                  </div>
+                  <button
+                    onclick="togglePauseStudies()"
+                    class="px-4 py-2 rounded-xl text-xs font-semibold shrink-0 transition ${
+                      state.settings.isPaused
+                        ? 'bg-roseDark text-roseWhite'
+                        : 'bg-roseLight text-roseDark border border-roseMedium'
+                    }"
+                  >
+                    ${state.settings.isPaused ? 'Retomar' : 'Pausar Estudos'}
+                  </button>
+                </div>
+
+                <div class="p-4 rounded-2xl bg-roseWhite border border-roseLight flex items-center justify-between gap-4">
+                  <div>
+                    <p class="text-sm font-semibold text-inkText">Reorganizar dias pendentes</p>
+                    <p class="text-xs text-inkText/70">
+                      Recalcula a data de início para que o próximo dia pendente caia na data de hoje.
+                    </p>
+                  </div>
+                  <button
+                    onclick="reorganizePendingDaysFromToday()"
+                    class="px-4 py-2 rounded-xl bg-roseLight hover:bg-rosePastel text-roseDark text-xs font-semibold shrink-0 transition"
+                  >
+                    Reorganizar
+                  </button>
+                </div>
+              </div>
+
+              <!-- Exportar / Importar JSON -->
+              <div class="pt-4 border-t border-roseLight space-y-3">
+                <p class="text-xs font-semibold uppercase tracking-wider text-roseAntique">Backup Local (JSON)</p>
+                <div class="flex flex-wrap gap-2.5">
+                  <button
+                    onclick="exportBackupJSON()"
+                    class="px-4 py-2 rounded-xl bg-roseLight border border-roseMedium text-roseDark text-xs font-semibold hover:bg-rosePastel transition flex items-center gap-1.5"
+                  >
+                    <i data-lucide="download" class="w-3.5 h-3.5"></i> Exportar Progresso
+                  </button>
+
+                  <label class="px-4 py-2 rounded-xl bg-roseWhite border border-rosePastel text-inkText text-xs font-semibold hover:bg-roseLight transition cursor-pointer flex items-center gap-1.5">
+                    <i data-lucide="upload" class="w-3.5 h-3.5"></i> Importar Backup
+                    <input type="file" accept=".json" class="hidden" onchange="importBackupJSON(event)" />
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function saveSettingsForm(e) {
+      e.preventDefault();
+      state.settings.studentName = document.getElementById('cfg-name').value.trim() || "Estudante de Lenormand";
+      state.settings.startDate = document.getElementById('cfg-start-date').value || getTodayISO();
+      state.settings.dailyMinutes = Number(document.getElementById('cfg-daily-minutes').value) || 60;
+      state.settings.scheduleDurationTarget = Number(document.getElementById('cfg-duration').value) || CURRICULUM_DAYS.length;
+      saveState();
+      renderCurrentView();
+      showToast("Configurações salvas com sucesso!");
+    }
+
+    function togglePauseStudies() {
+      state.settings.isPaused = !state.settings.isPaused;
+      state.settings.pausedAt = state.settings.isPaused ? getTodayISO() : null;
+      saveState();
+      renderCurrentView();
+      showToast(state.settings.isPaused ? "Estudos pausados." : "Estudos retomados!");
+    }
+
+    function reorganizePendingDaysFromToday() {
+      const nextPending = getNextPendingDay();
+      if (!nextPending) return;
+      const today = getTodayISO();
+      state.settings.startDate = addDaysToISO(today, -(nextPending.day - 1));
+      state.settings.isPaused = false;
+      saveState();
+      renderCurrentView();
+      showToast(`Cronograma reorganizado! O Dia ${nextPending.day} agora está agendado para hoje.`);
+    }
+
+    function exportBackupJSON() {
+      const blob = new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `lenormand-study-backup-${getTodayISO()}.json`;
+      a.click();
+      URL.revokeObjectURL(url);
+      showToast("Backup JSON exportado!");
+    }
+
+    function importBackupJSON(e) {
+      const file = e.target.files?.[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(evt) {
+        try {
+          const parsed = JSON.parse(evt.target.result);
+          if (parsed && parsed.settings && parsed.daysProgress) {
+            state = { ...structuredClone(defaultState), ...parsed };
+            saveState();
+            renderCurrentView();
+            showToast("Backup restaurado com sucesso!");
+          } else {
+            showToast("Arquivo JSON inválido.", "warning");
+          }
+        } catch {
+          showToast("Erro ao ler o arquivo JSON.", "warning");
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    // Modal com README.md, estrutura e GitHub Actions para GitHub Pages
+    function openGitHubPagesModal() {
+      const overlay = document.getElementById('modal-overlay');
+      const content = document.getElementById('modal-content');
+
+      const readmeText = `# Lenormand Study — Planner de Estudos (Petit Lenormand)
+
+Planner acadêmico estático para organização de estudos aprofundados de Baralho Cigano (Petit Lenormand), com currículo estruturado em 8 módulos, fichas individuais das 36 cartas, matriz das 630 combinações, sistema de revisões espaçadas e persistência local (\`localStorage\`).
+
+## Publicação no GitHub Pages
+1. Crie um repositório no GitHub (ex.: \`lenormand-study\`).
+2. Adicione o arquivo \`index.html\` na raiz do repositório e o workflow \`.github/workflows/deploy.yml\`.
+3. Em **Settings > Pages > Build and deployment**, selecione **GitHub Actions**.
+4. A cada push na branch \`main\`, o site será publicado automaticamente.`;
+
+      const workflowText = `name: Deploy Lenormand Study to GitHub Pages
+
+on:
+  push:
+    branches: ["main"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: \${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: '.'
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4`;
+
+      content.innerHTML = `
+        <div class="p-5 sm:p-6 bg-roseLight/80 border-b border-rosePastel flex items-center justify-between">
+          <div>
+            <span class="text-xs font-bold uppercase tracking-widest text-roseAntique">Deploy Estático</span>
+            <h3 class="text-2xl font-bold text-roseDark">Publicação no GitHub Pages</h3>
+          </div>
+          <button onclick="closeModal()" class="p-2 rounded-xl bg-roseWhite text-roseDark border border-rosePastel">
+            <i data-lucide="x" class="w-5 h-5"></i>
+          </button>
+        </div>
+
+        <div class="p-5 sm:p-6 overflow-y-auto space-y-5 text-xs">
+          <div>
+            <h4 class="font-serif text-lg font-bold text-roseDark mb-1">Estrutura Recomendada do Repositório</h4>
+            <pre class="p-3.5 rounded-2xl bg-roseWhite border border-rosePastel text-inkText overflow-x-auto">lenormand-study/
+├── index.html
+├── README.md
+└── .github/
+    └── workflows/
+        └── deploy.yml</pre>
+          </div>
+
+          <div>
+            <div class="flex items-center justify-between mb-1">
+              <h4 class="font-serif text-lg font-bold text-roseDark">README.md</h4>
+              <button onclick="copyTextToClipboard(\`${readmeText.replace(/`/g, '\\`')}\`)" class="px-2.5 py-1 rounded-lg bg-roseLight text-roseDark font-semibold">Copiar</button>
+            </div>
+            <pre class="p-3.5 rounded-2xl bg-roseWhite border border-rosePastel text-inkText overflow-x-auto whitespace-pre-wrap">${escapeHTML(readmeText)}</pre>
+          </div>
+
+          <div>
+            <div class="flex items-center justify-between mb-1">
+              <h4 class="font-serif text-lg font-bold text-roseDark">.github/workflows/deploy.yml</h4>
+              <button onclick="copyTextToClipboard(\`${workflowText.replace(/`/g, '\\`')}\`)" class="px-2.5 py-1 rounded-lg bg-roseLight text-roseDark font-semibold">Copiar</button>
+            </div>
+            <pre class="p-3.5 rounded-2xl bg-roseWhite border border-rosePastel text-inkText overflow-x-auto whitespace-pre-wrap">${escapeHTML(workflowText)}</pre>
+          </div>
+        </div>
+      `;
+
+      overlay.classList.remove('hidden');
+      overlay.classList.add('flex');
+      lucide.createIcons();
+    }
+
+    function copyTextToClipboard(text) {
+      navigator.clipboard.writeText(text).then(() => {
+        showToast("Conteúdo copiado para a área de transferência!");
+      });
+    }
+
+    // ----------------------------------------------------------------------------
+    // 7. SANITIZAÇÃO & INICIALIZAÇÃO
+    // ----------------------------------------------------------------------------
+
+    function escapeHTML(str) {
+      if (str === null || str === undefined) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    window.onload = function() {
+      // Eventos do menu mobile
+      const mobileBtn = document.getElementById('mobile-menu-btn');
+      const closeBtn = document.getElementById('close-sidebar-btn');
+      const backdrop = document.getElementById('mobile-backdrop');
+      const sidebar = document.getElementById('sidebar');
+
+      const openDrawer = () => {
+        sidebar.classList.remove('-translate-x-full');
+        backdrop.classList.remove('hidden');
+      };
+      const closeDrawer = () => {
+        sidebar.classList.add('-translate-x-full');
+        backdrop.classList.add('hidden');
+      };
+
+      if (mobileBtn) mobileBtn.addEventListener('click', openDrawer);
+      if (closeBtn) closeBtn.addEventListener('click', closeDrawer);
+      if (backdrop) backdrop.addEventListener('click', closeDrawer);
+
+      // Fechar modal clicando fora
+      const modalOverlay = document.getElementById('modal-overlay');
+      modalOverlay.addEventListener('click', (e) => {
+        if (e.target === modalOverlay) closeModal();
+      });
+
+      renderNavigation();
+      renderCurrentView();
+    };
+  </script>
+</body>
+</html>
